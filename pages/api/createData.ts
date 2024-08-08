@@ -8,8 +8,6 @@ function extractSpreadsheetId(url: string) {
   return match ? match[1] : null;
 }
 
-
-
 export default async function createData(req: NextApiRequest, res: NextApiResponse) {
   
   if (req.method !== 'POST') {
