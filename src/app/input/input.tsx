@@ -1,7 +1,6 @@
 "use client";
 import { useState } from 'react';
 import axios from 'axios';
-import { Bar } from 'react-chartjs-2';
 import { Container, TextField, Button, Box, Typography, Paper } from '@mui/material';
 
 export const Input = () => {
