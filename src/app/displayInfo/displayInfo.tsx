@@ -1,6 +1,4 @@
-"use client";
-import { useState, useEffect } from 'react';
-import axios from 'axios';
+
 import { Container, Typography, Paper, Box, Grid } from '@mui/material';
 
 type Info = {
@@ -11,23 +9,19 @@ type Info = {
     formUrl: string;
 };
 
-export const DisplayInfo = () => {
-    const [info, setInfo] = useState<Info[]>([]);
-    const [error, setError] = useState('');
-    
-    useEffect(() => {
-        const fetchInfo = async () => {
-        try {
-            const response = await axios.get('/api/getData');
-            console.log(response.data);
-            setInfo(response.data);
-        } catch (error: any) {
-            setError(error.message);
-        }
-        };
-    
-        fetchInfo();
-    }, []);
+const getInfos = async (): Promise<Info[]> => {
+    const apiUrl = process.env.NEXT_PUBLIC_API_URL;
+    if(!apiUrl) {
+        throw new Error("API URL is not defined");
+    }
+    const res = await fetch(apiUrl)
+    const data = await res.json();
+    return data;
+}
+
+
+export const DisplayInfo = async () => {
+    const info = await getInfos();
     
     return (
         <Container>
