@@ -1,7 +1,11 @@
-import { Input } from "./input/input";
+import {DisplayInfo} from "./displayInfo/displayInfo";
+import { Header } from "./header/Header";
 
 export default function Home() {
   return (
-    <Input />
+    <>
+      <Header />
+      <DisplayInfo />
+    </>
   )
 }

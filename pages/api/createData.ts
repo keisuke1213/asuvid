@@ -1,4 +1,4 @@
-// pages/api/saveData.js
+
 import { PrismaClient } from '@prisma/client';
 import { NextApiRequest, NextApiResponse } from 'next';
 
@@ -10,7 +10,7 @@ function extractSpreadsheetId(url: string) {
 
 
 
-export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+export default async function createData(req: NextApiRequest, res: NextApiResponse) {
   
   if (req.method !== 'POST') {
     return res.status(405).json({ message: 'Method Not Allowed' });
