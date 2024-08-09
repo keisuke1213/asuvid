@@ -20,8 +20,10 @@ const getInfos = async (): Promise<Info[]> => {
 }
 
 
+
 export const DisplayInfo = async () => {
     const info = await getInfos();
+    console.log(info);
     
     return (
         <Container>
@@ -30,7 +32,7 @@ export const DisplayInfo = async () => {
                 ボランティア情報一覧
                 </Typography>
                 <Grid container spacing={3}>
-                {info.slice().reverse().map((info) => (
+                {info.map((info) => (
                 <Grid item xs={12} sm={6} md={4} key={info.id}>
                 <Paper elevation={3} sx={{ p: 2 }}>
                     <Typography variant="h6" component="h2" gutterBottom>

@@ -5,7 +5,11 @@ export default async function createData(req: NextApiRequest, res: NextApiRespon
     
     const prisma = new PrismaClient();
     try {
-        const info = await prisma.info.findMany();
+        const info = await prisma.info.findMany({
+            orderBy: {
+                id: 'desc'
+            }
+        });
         res.status(200).json(info);
     } catch (error: any) {
         console.error('Error:', error.message);

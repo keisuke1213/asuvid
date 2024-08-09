@@ -16,7 +16,6 @@ export default async function createData(req: NextApiRequest, res: NextApiRespon
   const prisma = new PrismaClient();
 
   const { name,date,deadline,formUrl } = req.body;
-  console.log(req.body);
 
   const isoDate = new Date(date).toISOString();
   const isoDeadline = new Date(deadline).toISOString();
