@@ -4,6 +4,7 @@ import MenuIcon from '@mui/icons-material/Menu';
 import SearchIcon from '@mui/icons-material/Search';
 import { useState } from 'react';
 import { Drawer, List, ListItemButton, ListItemText, Divider,AppBar,Box,Toolbar,styled,alpha,IconButton,Typography, InputBase } from '@mui/material';
+import Link from 'next/link';
 
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
@@ -56,7 +57,7 @@ export const Header = () => {
     }
     setDrawerOpen(open);
   };
-  const menuItems = ['ホーム', '登録', 'カレンダー'];
+  const menuItems = [{route : "/", text : 'Home'}, {route : "/input", text : '登録'}, {route : "/carender", text : 'カレンダー'}];
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static">
@@ -78,9 +79,11 @@ export const Header = () => {
             onKeyDown={toggleDrawer(false)}
           >
             <List>
-              {menuItems.map((text, index) => (
+              {menuItems.map((item, index) => (
                 <ListItemButton  key={index}>
-                  <ListItemText primary={text} />
+                  <Link href={item.route}>
+                    {item.text}
+                  </Link>
                 </ListItemButton>
               ))}
             </List>
