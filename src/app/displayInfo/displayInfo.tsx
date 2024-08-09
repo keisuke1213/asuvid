@@ -14,7 +14,7 @@ const getInfos = async (): Promise<Info[]> => {
     if(!apiUrl) {
         throw new Error("API URL is not defined");
     }
-    const res = await fetch(apiUrl)
+    const res = await fetch(apiUrl, {cache: 'no-store'})
     const data = await res.json();
     return data;
 }
