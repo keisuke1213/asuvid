@@ -2,6 +2,8 @@
 import { useState } from 'react';
 import axios from 'axios';
 import { Container, TextField, Button, Box, Typography, Paper } from '@mui/material';
+import { useRouter } from 'next/navigation'
+import { Router } from 'next/router';
 
 export const Input = () => {
   const [name, setName] = useState('');
@@ -9,6 +11,8 @@ export const Input = () => {
   const [deadline, setDeadline] = useState('');
   const [formUrl, setFormUrl] = useState('');
   const [error, setError] = useState('');
+
+  const router = useRouter();
 
   const handleInputChange = (event: any) => {
     const { name, value } = event.target;
@@ -36,10 +40,7 @@ export const Input = () => {
     } catch (error: any) {
       setError(error.message);
     }
-    setName('');
-    setDate('');
-    setDeadline('');
-    setFormUrl('');
+    router.push('/');
   }
 
   return (
