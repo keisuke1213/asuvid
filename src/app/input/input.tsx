@@ -1,9 +1,10 @@
 "use client";
 import { useState } from 'react';
 import axios from 'axios';
-import { Container, TextField, Button, Box, Typography, Paper } from '@mui/material';
+import { Container, TextField, Button, Box, Typography, Paper} from '@mui/material';
+import { LoadingButton } from '@mui/lab';
 import { useRouter } from 'next/navigation'
-import { Router } from 'next/router';
+
 
 export const Input = () => {
   const [name, setName] = useState('');
@@ -11,6 +12,7 @@ export const Input = () => {
   const [deadline, setDeadline] = useState('');
   const [formUrl, setFormUrl] = useState('');
   const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
 
   const router = useRouter();
 
@@ -31,6 +33,7 @@ export const Input = () => {
     event.preventDefault();
 
     try {
+      setLoading(true);
       await axios.post('/api/createData', {
         name,
         date,
@@ -92,9 +95,9 @@ export const Input = () => {
               margin="normal"
             />
             <Box textAlign="center" mt={2}>
-              <Button variant="contained" color="primary" type="submit">
+              <LoadingButton variant="contained" color="primary" type="submit" loading={loading}> 
                 追加
-              </Button>
+              </LoadingButton>
             </Box>
           </form>
         </Paper>
