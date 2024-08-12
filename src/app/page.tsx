@@ -1,5 +1,5 @@
 import {DisplayInfo} from "./displayInfo/displayInfo";
-import { Header } from "./header/Header";
+import { Header } from "./ui/header";
 
 const Home =  () => {
   return (
