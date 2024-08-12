@@ -10,7 +10,6 @@ type Info = {
 };
 
 const getInfos = async (): Promise<Info[]> => {
-    'use server'
     const apiUrl = process.env.NEXT_PUBLIC_API_URL;
     if(!apiUrl) {
         throw new Error("API URL is not defined");
@@ -24,7 +23,6 @@ const getInfos = async (): Promise<Info[]> => {
 
 export const DisplayInfo = async () => {
     const info = await getInfos();
-    console.log(info);
     
     return (
         <Container>

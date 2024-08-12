@@ -15,7 +15,6 @@
     "@mui/lab": "^5.0.0-alpha.173",
     "@mui/material": "^5.16.6",
     "@prisma/client": "^5.18.0",
-    "axios": "^1.7.3",
     "chart.js": "^4.4.3",
     "next": "14.2.5",
     "react": "^18",
