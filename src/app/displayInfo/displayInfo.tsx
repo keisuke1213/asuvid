@@ -1,4 +1,3 @@
-
 import { Container, Typography, Paper, Box, Grid } from "@mui/material";
 import MenuIcon from "../ui/menu";
 import { FC } from "react";
@@ -23,8 +22,9 @@ export const getInfos = async (): Promise<Info[]> => {
   return data;
 };
 
+
 export const DisplayInfo: FC<{open: boolean}> = async ({open}) => {
-  const info = await getInfos();
+  const info =  await getInfos();
   console.log(info);
 
   return (
@@ -38,7 +38,7 @@ export const DisplayInfo: FC<{open: boolean}> = async ({open}) => {
             <Grid item xs={12} sm={6} md={4} key={info.id}>
               <Paper elevation={3} sx={{ p: 2, position: "relative" }}>
                 <Box sx={{ position: "absolute", top: 8, right: 8 }}>
-                  <MenuIcon id={info.id} />
+                  <MenuIcon info={info} />
                 </Box>
                 <Typography variant="h6" component="h2" gutterBottom>
                   {info.name}
@@ -57,7 +57,7 @@ export const DisplayInfo: FC<{open: boolean}> = async ({open}) => {
           ))}
         </Grid>
       </Box>
-      <EditModal open={open} info={info[0]} />
+      <EditModal open={open}  />
     </Container>
   );
 };
