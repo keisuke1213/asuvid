@@ -4,7 +4,9 @@ import IconButton from "@mui/material/IconButton";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
-import EditModal from "./moda";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+
 
 const options = [
   "編集",
@@ -13,15 +15,31 @@ const options = [
 
 const ITEM_HEIGHT = 48;
 
-export default function MenuIcon() {
+type MenuIconProps = {
+  id: number,
+}
+
+export default function MenuIcon({id}: MenuIconProps) {
+  const router = useRouter();
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
+ 
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
   };
   const handleClose = () => {
     setAnchorEl(null);
   };
+  
+
+
+  const handleOptionClick = (option: string) => {
+    if (option === "編集") {
+      router.push(`/displayInfo/${id}/edit`);
+    } else if (option === "削除") {
+      router.push("/displayInfo/[id]/delete");
+  }
+  }
 
   return (
     <div>
@@ -54,12 +72,13 @@ export default function MenuIcon() {
           <MenuItem
             key={option}
             selected={option === "Pyxis"}
-            onClick={}
+            onClick={() => handleOptionClick(option)}
           >
-            {option}
+           {option}
           </MenuItem>
         ))}
       </Menu>
+
     </div>
   );
 }

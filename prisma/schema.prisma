@@ -20,4 +20,6 @@ model Info {
   date           DateTime
   deadline       DateTime
   formUrl        String
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
 }

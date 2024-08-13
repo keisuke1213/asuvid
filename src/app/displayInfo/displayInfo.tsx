@@ -1,5 +1,9 @@
+
 import { Container, Typography, Paper, Box, Grid } from "@mui/material";
 import MenuIcon from "../ui/menu";
+import { FC } from "react";
+import EditModal from "../ui/modal/editModal";
+
 
 type Info = {
   id: number;
@@ -9,7 +13,7 @@ type Info = {
   formUrl: string;
 };
 
-const getInfos = async (): Promise<Info[]> => {
+export const getInfos = async (): Promise<Info[]> => {
   const apiUrl = process.env.NEXT_PUBLIC_API_URL;
   if (!apiUrl) {
     throw new Error("API URL is not defined");
@@ -19,8 +23,9 @@ const getInfos = async (): Promise<Info[]> => {
   return data;
 };
 
-export const DisplayInfo = async () => {
+export const DisplayInfo: FC<{open: boolean}> = async ({open}) => {
   const info = await getInfos();
+  console.log(info);
 
   return (
     <Container>
@@ -33,7 +38,7 @@ export const DisplayInfo = async () => {
             <Grid item xs={12} sm={6} md={4} key={info.id}>
               <Paper elevation={3} sx={{ p: 2, position: "relative" }}>
                 <Box sx={{ position: "absolute", top: 8, right: 8 }}>
-                  <MenuIcon />
+                  <MenuIcon id={info.id} />
                 </Box>
                 <Typography variant="h6" component="h2" gutterBottom>
                   {info.name}
@@ -52,6 +57,7 @@ export const DisplayInfo = async () => {
           ))}
         </Grid>
       </Box>
+      <EditModal open={open} info={info[0]} />
     </Container>
   );
 };

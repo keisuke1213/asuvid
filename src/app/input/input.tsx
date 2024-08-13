@@ -55,7 +55,7 @@ export const Input = () => {
               margin="normal"
             />
             <Box textAlign="center" mt={2}>
-              <SubmitButton />
+              <SubmitButton option={"送信"}/>
             </Box>
           </form>
         </Paper>

@@ -1,13 +1,13 @@
-import {DisplayInfo} from "./displayInfo/displayInfo";
+import { DisplayInfo } from "./displayInfo/displayInfo";
 import { Header } from "./ui/header";
 
-const Home =  () => {
+const Home = () => {
   return (
     <>
       <Header />
-      <DisplayInfo/>
+      <DisplayInfo open={false} />
     </>
-  )
-}
+  );
+};
 
 export default Home;
