@@ -1,12 +1,12 @@
 import { DisplayInfo } from "../../displayInfo";
-import { Header } from "../../../ui/header";
+import { Header } from "../../../common/header";
 import DeleteModal from "../../modal/deleteModal";
 
 const Delete = () => {
   return (
     <>
       <Header />
-      <DisplayInfo  />
+      <DisplayInfo />
       <DeleteModal open />
     </>
   );

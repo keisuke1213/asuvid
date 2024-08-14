@@ -7,7 +7,7 @@ import { useRouter } from "next/navigation";
 import Button from "@mui/material/Button";
 import { useInfoContext } from "@/app/context/selectedInfo";
 import { deleteInfo } from "../../serverAction/delete";
-import { SubmitButton } from "@/app/input/submitButton";
+import { SubmitButton } from "@/app/common/submitButton";
 
 const style = {
   position: "absolute" as "absolute",
@@ -20,7 +20,7 @@ const style = {
   boxShadow: 24,
   p: 4,
   "@media (max-width: 600px)": {
-    width: "75%"
+    width: "75%",
   },
 };
 

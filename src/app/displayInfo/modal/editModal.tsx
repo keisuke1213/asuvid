@@ -3,7 +3,7 @@ import * as React from "react";
 import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
 import { Paper, TextField } from "@mui/material";
-import { SubmitButton } from "../../../app/input/submitButton";
+import { SubmitButton } from "../../common/submitButton";
 import { update } from "../../serverAction/update";
 import { useInfoContext } from "@/app/context/selectedInfo";
 
@@ -18,7 +18,7 @@ const style = {
   boxShadow: 24,
   p: 4,
   "@media (max-width: 600px)": {
-    width: "75%"
+    width: "75%",
   },
 };
 
