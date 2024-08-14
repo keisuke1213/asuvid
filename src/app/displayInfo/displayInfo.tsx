@@ -1,6 +1,7 @@
 import { Container, Typography, Paper, Box, Grid } from "@mui/material";
 import MenuIcon from "./menu";
 import { getInfos } from "../serverAction/getInfo"; 
+import Link from "next/link";
 
 
 
@@ -30,7 +31,7 @@ export const DisplayInfo = async () => {
                   締め切り: {info.deadline}
                 </Typography>
                 <Typography variant="body1" gutterBottom>
-                  フォームURL: {info.formUrl}
+                  <Link href={info.formUrl}>申し込みはこちら</Link>
                 </Typography>
               </Paper>
             </Grid>
