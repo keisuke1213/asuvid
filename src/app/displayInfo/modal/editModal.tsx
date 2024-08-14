@@ -2,10 +2,11 @@
 import * as React from "react";
 import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
-import { Paper, TextField } from "@mui/material";
+import { Paper, TextField, Button } from "@mui/material";
 import { SubmitButton } from "../../common/submitButton";
 import { update } from "../../serverAction/update";
 import { useInfoContext } from "@/app/context/selectedInfo";
+import { useRouter } from "next/navigation";
 
 const style = {
   position: "absolute" as "absolute",
@@ -27,7 +28,12 @@ type EditModalProps = {
 };
 
 export default function EditModal({ open }: EditModalProps) {
+  const router = useRouter();
   const { selectedInfo } = useInfoContext();
+
+  const handleClose = () => {
+    router.push("/");
+  };
 
   return (
     <div>
@@ -74,8 +80,13 @@ export default function EditModal({ open }: EditModalProps) {
               margin="normal"
               defaultValue={selectedInfo?.formUrl || ""}
             />
-            <Box textAlign="center" mt={2}>
-              <SubmitButton option={"編集"} />
+            <Box
+              sx={{ display: "flex", justifyContent: "space-between", mt: 2 }}
+            >
+              <SubmitButton option={"編集する"} />
+              <Button variant="outlined" onClick={handleClose}>
+                キャンセル
+              </Button>
             </Box>
           </form>
         </Paper>

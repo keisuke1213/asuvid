@@ -28,6 +28,10 @@ export default function DeleteModal({ open }: { open: boolean }) {
   const router = useRouter();
   const { selectedInfo } = useInfoContext();
 
+  const handleClose = () => {
+    router.push("/");
+  };
+
   return (
     <div>
       <Modal
@@ -45,8 +49,8 @@ export default function DeleteModal({ open }: { open: boolean }) {
               sx={{ display: "flex", justifyContent: "space-between", mt: 2 }}
             >
               <input type="hidden" name="id" value={selectedInfo?.id || ""} />
-              <SubmitButton option={"削除"} />
-              <Button variant="outlined">キャンセル</Button>
+              <SubmitButton option={"削除する"} />
+              <Button variant="outlined" onClick={handleClose}>キャンセル</Button>
             </Box>
           </form>
         </Box>
