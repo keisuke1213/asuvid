@@ -1,8 +1,5 @@
 import { Container, Typography, Paper, Box, Grid } from "@mui/material";
-import MenuIcon from "../ui/menu";
-import { FC } from "react";
-import EditModal from "../ui/modal/editModal";
-
+import MenuIcon from "./menu";
 
 type Info = {
   id: number;
@@ -23,9 +20,8 @@ export const getInfos = async (): Promise<Info[]> => {
 };
 
 
-export const DisplayInfo: FC<{open: boolean}> = async ({open}) => {
+export const DisplayInfo = async () => {
   const info =  await getInfos();
-  console.log(info);
 
   return (
     <Container>
@@ -57,7 +53,6 @@ export const DisplayInfo: FC<{open: boolean}> = async ({open}) => {
           ))}
         </Grid>
       </Box>
-      <EditModal open={open}  />
     </Container>
   );
 };

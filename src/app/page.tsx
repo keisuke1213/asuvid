@@ -5,7 +5,7 @@ const Home = () => {
   return (
     <>
       <Header />
-      <DisplayInfo open={false} />
+      <DisplayInfo />
     </>
   );
 };

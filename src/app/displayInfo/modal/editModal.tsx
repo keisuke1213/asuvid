@@ -4,7 +4,7 @@ import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
 import { Paper, TextField } from "@mui/material";
 import { SubmitButton } from "../../../app/input/submitButton";
-import { update } from "../../crud/update";
+import { update } from "../../serverAction/update";
 import { useInfoContext } from "@/app/context/selectedInfo";
 
 const style = {
@@ -25,8 +25,6 @@ type EditModalProps = {
 
 export default function EditModal({ open }: EditModalProps) {
   const { selectedInfo } = useInfoContext();
-  console.log(selectedInfo?.date);
-
 
   return (
     <div>

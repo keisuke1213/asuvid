@@ -46,7 +46,8 @@ export default function MenuIcon({info}: {info: Info}) {
       router.push(`/displayInfo/${info.id}/edit`);
       setSelectedInfo(info);
     } else if (option === "削除") {
-      router.push("/displayInfo/[id]/delete");
+      router.push(`/displayInfo/${info.id}/delete`);
+      setSelectedInfo(info);
   }
   }
 
