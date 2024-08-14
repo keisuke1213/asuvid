@@ -8,10 +8,9 @@ import {
   Paper,
 } from "@mui/material";
 import { create } from "./create";
-import {SubmitButton} from "./submitButton";
+import { SubmitButton } from "../common/submitButton";
 
 export const Input = () => {
-
   return (
     <Container>
       <Box my={4}>
@@ -55,7 +54,7 @@ export const Input = () => {
               margin="normal"
             />
             <Box textAlign="center" mt={2}>
-              <SubmitButton option={"送信"}/>
+              <SubmitButton option={"送信"} />
             </Box>
           </form>
         </Paper>

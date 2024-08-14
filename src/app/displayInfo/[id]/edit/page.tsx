@@ -1,12 +1,12 @@
 import { DisplayInfo } from "../../displayInfo";
-import { Header } from "../../../ui/header";
+import { Header } from "../../../common/header";
 import EditModal from "../../modal/editModal";
 
 const Edit = () => {
   return (
     <>
       <Header />
-      <DisplayInfo  />
+      <DisplayInfo />
       <EditModal open />
     </>
   );
