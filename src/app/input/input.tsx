@@ -15,7 +15,7 @@ export const Input = () => {
     <Container>
       <Box my={4}>
         <Typography variant="h4" component="h1" gutterBottom>
-          ボランティア情報管理
+          投稿フォーム
         </Typography>
         <Paper elevation={3} sx={{ p: 2 }}>
           <form action={create}>

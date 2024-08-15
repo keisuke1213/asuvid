@@ -12,7 +12,7 @@ export const DisplayInfo = async () => {
     <Container>
       <Box my={4}>
         <Typography variant="h4" component="h1" gutterBottom>
-          ボランティア情報一覧
+          募集一覧
         </Typography>
         <Grid container spacing={3}>
           {info.map((info) => (
