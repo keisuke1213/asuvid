@@ -17,9 +17,19 @@ datasource db {
 model Info {
   id             Int      @id @default(autoincrement())
   name           String
-  date           DateTime
-  deadline       DateTime
-  formUrl        String
+  content        String
+  deadline       DateTime?
+  formUrl        String?
   createdAt      DateTime @default(now())
   updatedAt      DateTime @updatedAt
+  dates          Date[]
 }
+
+model Date {
+  id             Int      @id @default(autoincrement())
+  date           DateTime
+  infoId         Int
+  info           Info     @relation(fields: [infoId], references: [id])
+}
+
+
