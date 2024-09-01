@@ -1,17 +1,15 @@
-"use client";
+
 import {
   Container,
   Typography,
   Paper,
   Box,
   Grid,
-  ButtonBase,
+  Button,
 } from "@mui/material";
 import MenuIcon from "./menu";
-import Link from "next/link";
 import { FC } from "react";
-import { useState } from "react";
-import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 
 type DateType = {
@@ -34,12 +32,7 @@ type DisplayInfoProps = {
 };
 
 export const DisplayAllInfo: FC<DisplayInfoProps> = ({ info }) => {
-  const [id, setId] = useState<number | null>(null);
-  const router = useRouter();
-  const handleClick = (id: number) => {
-    setId(id);
-    router.push(`/displayInfo/${id}`);
-  };
+ 
   return (
     <Container>
       <Box my={4}>
@@ -49,11 +42,11 @@ export const DisplayAllInfo: FC<DisplayInfoProps> = ({ info }) => {
         <Grid container spacing={3}>
           {info.flat().map((item) => (
             <Grid item xs={12} sm={6} md={4} key={item.id}>
-              <ButtonBase
+              {/* <ButtonBase
                 component="div"
                 sx={{ width: "100%", display: "block", textAlign: "initial" }}
                 onClick={() => handleClick(item.id)}
-              >
+              > */}
                 <Paper elevation={3} sx={{ p: 2, position: "relative" }}>
                   <Box sx={{ position: "absolute", top: 8, right: 8 }}>
                     {/* <MenuIcon info={item} /> */}
@@ -71,13 +64,13 @@ export const DisplayAllInfo: FC<DisplayInfoProps> = ({ info }) => {
                       締め切り: {item.deadline}
                     </Typography>
                   ) : null}
+                  <Button><Link href={`/displayInfo/${item.id}`}>詳細</Link></Button>
                   {item.formUrl ? (
                     <Typography variant="body1" gutterBottom>
                       <Link href={item.formUrl}>申し込みはこちら</Link>
                     </Typography>
                   ) : null}
                 </Paper>
-              </ButtonBase>
             </Grid>
           ))}
         </Grid>

@@ -1,9 +1,10 @@
 import { DisplayAllInfo } from "./displayInfo/displayAllInfo";
-import { Header } from "./common/header";
-import { getAllInfos } from "./serverAction/getAllInfo";
+import { Header } from "./util/header";
+import { callGetAllInfos } from "./serverAction/callGetAllInfo";
 
 const Home = async () => {
-  const infos = await getAllInfos();
+  const infos = await callGetAllInfos();
+  console.log(infos);
   const info = infos.map((info) => {
     return {
       id: info.id,
