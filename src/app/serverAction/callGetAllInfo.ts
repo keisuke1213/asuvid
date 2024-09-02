@@ -20,6 +20,10 @@ export const callGetAllInfos = async (): Promise<Info[]> => {
   }
   try {
   const res = await fetch(apiUrl!, {cache: "no-store"});
+  console.log(res);
+  if (!res.ok) {
+    throw new Error(`HTTP error! status: ${res.status}`);
+  }
   const data = await res.json();
   console.log(data);
   return data
