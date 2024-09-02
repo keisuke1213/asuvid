@@ -57,7 +57,7 @@ export const Header = () => {
     }
     setDrawerOpen(open);
   };
-  const menuItems = [{route : "/", text : 'Home'}, {route : "/input", text : '登録'}, {route : "/carender", text : 'カレンダー'}];
+  const menuItems = [{route : "/", text : 'Home'}, {route : "/carender", text : 'カレンダー'}];
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static">
