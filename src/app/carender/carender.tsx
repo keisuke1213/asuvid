@@ -8,18 +8,18 @@ type Event = {
   id: number;
   title: string;
   start: string;
-  end: string;
-}[];
-
-type CalendarProps = {
-  events: Event;
 };
 
-export const Calendar: FC<CalendarProps> = ({ events }) => {
-    const formattedEvents = events.map((event) => ({
-      ...event,
-      id: event.id.toString(),
-    }));
+type CalenderProps = {
+  event: Event[];
+};
+
+export const Calendar: FC<CalenderProps> = ({ event }) => {
+  const formattedEvents = event.map((event) => ({
+    ...event,
+    id: event.id.toString(),
+  }));
+
   return (
     <FullCalendar
       plugins={[dayGridPlugin, interactionPlugin]}

@@ -8,7 +8,7 @@ import {
   Paper,
 } from "@mui/material";
 import { create } from "./create";
-import { SubmitButton } from "../common/submitButton";
+import { SubmitButton } from "../util/submitButton";
 
 export const Input = () => {
   return (

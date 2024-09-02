@@ -1,20 +1,30 @@
 import styles from "./CalendarPage.module.css";
-import { getInfos } from "../serverAction/getInfo";
+import { callGetAllInfos } from "../serverAction/callGetAllInfo";
 import { Calendar } from "./carender";
 
-export default async function CalendarPage() {
-  const infos = await getInfos();
+type Event = {
+  id: number;
+  title: string;
+  start: string;
+};
 
-  const events = infos.map((info) => ({
-    id: info?.id,
-    title: info.name,
-    start: info.date, 
-    end: info.deadline 
-  }));
+export default async function CalendarPage() {
+  const infos = await callGetAllInfos();
+  const event: Event[] = [];
+
+  const events = infos.map((info) => {
+    info.dates.forEach((date) => {
+       event.push({
+        id: date.id,
+        title: info.name,
+        start: date.date,
+      });
+    })
+  });
   return (
     <div className={styles.container}>
       <h1>カレンダー</h1>
-      <Calendar events={events} />
+      <Calendar event={event} />
     </div>
   );
 }

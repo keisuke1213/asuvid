@@ -1,7 +1,5 @@
-"use client";
 import { getInfo } from "@/app/serverAction/getInfo";
-import { useParams } from "next/navigation";
-import { useState, useEffect } from "react";
+import { LoadingImage } from "@/app/util/LoadingImage";
 import {
   Container,
   Typography,
@@ -12,6 +10,7 @@ import {
   ListItemText,
   Link,
 } from "@mui/material";
+import { Suspense } from "react";
 
 type DateType = {
   id: number;
@@ -19,7 +18,7 @@ type DateType = {
   infoId: number;
 };
 
-type info = {
+type Info = {
   id: number;
   name: string;
   content: string;
@@ -28,20 +27,13 @@ type info = {
   dates: DateType[];
 };
 
-const DisplayInfo = () => {
-  console.log("DisplayInfo");
-  const [info, setInfo] = useState<info | null | undefined>(null);
-  const params = useParams();
-  const id = Number(params?.detail);
+const DisplayInfo = async ({ params: { id } }: { params: { id: number } }) => {
   console.log(id);
 
-  useEffect(() => {
-    const fetchInfo = async () => {
-      const info = await getInfo(id);
-      setInfo(info);
-    };
-    fetchInfo();
-  }, [id]);
+  const info = await getInfo(Number(id));
+  if (!info) {
+    throw new Error("Info not found");
+  }
 
   console.log(info);
   return (
@@ -49,7 +41,6 @@ const DisplayInfo = () => {
       <Typography variant="h4" component="h1" gutterBottom>
         DisplayInfo
       </Typography>
-      {info ? (
         <Card>
           <CardContent>
             <Typography variant="h5" component="h2">
@@ -62,7 +53,9 @@ const DisplayInfo = () => {
             <List>
               {info.dates.map((date) => (
                 <ListItem key={date.id}>
-                  <ListItemText primary={new Date(date.date).toLocaleDateString()} />
+                  <ListItemText
+                    primary={new Date(date.date).toLocaleDateString()}
+                  />
                 </ListItem>
               ))}
             </List>
@@ -79,9 +72,6 @@ const DisplayInfo = () => {
             )}
           </CardContent>
         </Card>
-      ) : (
-        <Typography>Loading...</Typography>
-      )}
     </Container>
   );
 };
