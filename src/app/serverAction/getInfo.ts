@@ -1,17 +1,24 @@
-type Info = {
-  id: number;
-  name: string;
-  date: string;
-  deadline: string;
-  formUrl: string;
-};
+"use server";
+import { PrismaClient } from "@prisma/client";
 
-export const getInfos = async (): Promise<Info[]> => {
-  const apiUrl = process.env.NEXT_PUBLIC_API_URL;
-  if (!apiUrl) {
-    throw new Error("API URL is not defined");
+export const getInfo = async (id: number) => {
+  const prisma = new PrismaClient();
+  console.log(id);
+
+  try {
+    const info = await prisma.info.findUnique({
+      where: {
+        id: id,
+      },
+      include: {
+        dates: true,
+      },
+    });
+    console.log(info);
+    return info;
+  } catch (error: any) {
+    console.error("Error", error.message);
+  } finally {
+    await prisma.$disconnect();
   }
-  const res = await fetch(apiUrl, { cache: "no-store" });
-  const data = await res.json();
-  return data;
 };

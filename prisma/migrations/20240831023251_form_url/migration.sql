@@ -1,0 +1,3 @@
+-- AlterTable
+ALTER TABLE "Info" ALTER COLUMN "deadline" DROP NOT NULL,
+ALTER COLUMN "formUrl" DROP NOT NULL;
