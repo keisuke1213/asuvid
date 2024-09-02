@@ -1,3 +1,4 @@
+"use client";
 import { getInfo } from "@/app/serverAction/getInfo";
 import { LoadingImage } from "@/app/util/LoadingImage";
 import {
@@ -10,7 +11,7 @@ import {
   ListItemText,
   Link,
 } from "@mui/material";
-import { Suspense } from "react";
+import { useSearchParams } from "next/navigation";
 
 type DateType = {
   id: number;
@@ -27,51 +28,46 @@ type Info = {
   dates: DateType[];
 };
 
-const DisplayInfo = async ({ params: { id } }: { params: { id: number } }) => {
-  console.log(id);
+const DisplayInfo =  () => {
+  const searchParams = useSearchParams();
+  const name = searchParams?.get("name");
+  const content = searchParams?.get("content");
+  const url = searchParams?.get("url");
+  const deadline = searchParams?.get("deadline");
+  const dates = searchParams?.getAll("dates");
 
-  const info = await getInfo(Number(id));
-  if (!info) {
-    throw new Error("Info not found");
-  }
-
-  console.log(info);
   return (
     <Container>
       <Typography variant="h4" component="h1" gutterBottom>
         DisplayInfo
       </Typography>
-        <Card>
-          <CardContent>
-            <Typography variant="h5" component="h2">
-              {info.name}
-            </Typography>
-            <Typography color="textSecondary">{info.content}</Typography>
-            <Typography variant="h6" component="h3" gutterBottom>
-              Dates
-            </Typography>
-            <List>
-              {info.dates.map((date) => (
-                <ListItem key={date.id}>
-                  <ListItemText
-                    primary={new Date(date.date).toLocaleDateString()}
-                  />
-                </ListItem>
-              ))}
-            </List>
+      <Card>
+        <CardContent>
+          <Typography variant="h5" component="h2">
+            {name}
+          </Typography>
+          <Typography color="textSecondary">{content}</Typography>
+          <Typography variant="h6" component="h3" gutterBottom>
+            Dates
+          </Typography>
+          <List>
+            <ListItem >
+              <ListItemText primary={dates?.join(", ")} />
+            </ListItem>
+          </List>
+          <Typography variant="body2" component="p">
+            Deadline: {deadline}
+          </Typography>
+          {url && (
             <Typography variant="body2" component="p">
-              Deadline: {new Date(info.deadline).toLocaleDateString()}
+              Form URL:{" "}
+              <Link href={url} target="_blank" rel="noopener">
+                {url}
+              </Link>
             </Typography>
-            {info.formUrl && (
-              <Typography variant="body2" component="p">
-                Form URL:{" "}
-                <Link href={info.formUrl} target="_blank" rel="noopener">
-                  {info.formUrl}
-                </Link>
-              </Typography>
-            )}
-          </CardContent>
-        </Card>
+          )}
+        </CardContent>
+      </Card>
     </Container>
   );
 };
