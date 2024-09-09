@@ -1,6 +1,4 @@
 "use client";
-import { getInfo } from "@/app/serverAction/getInfo";
-import { LoadingImage } from "@/app/util/LoadingImage";
 import {
   Container,
   Typography,

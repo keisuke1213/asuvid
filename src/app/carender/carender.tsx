@@ -1,4 +1,5 @@
 "use client";
+import styles from "./CalendarPage.module.css";
 import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import interactionPlugin from "@fullcalendar/interaction";
@@ -21,12 +22,14 @@ export const Calendar: FC<CalenderProps> = ({ event }) => {
   }));
 
   return (
-    <FullCalendar
-      plugins={[dayGridPlugin, interactionPlugin]}
-      initialView="dayGridMonth"
-      events={formattedEvents}
-      locale="ja"
-      contentHeight="auto"
-    />
+    <div className={styles.container}>
+      <FullCalendar
+        plugins={[dayGridPlugin, interactionPlugin]}
+        initialView="dayGridMonth"
+        events={formattedEvents}
+        locale="ja"
+        contentHeight="auto"
+      />
+    </div>
   );
 };

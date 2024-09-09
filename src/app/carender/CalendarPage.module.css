@@ -10,3 +10,24 @@
     min-height: 100vh;
   }
 }
+
+/*文字サイズ調整*/
+@media (max-width: 600px) {
+  .fc-event-title {
+    font-size: 8px; 
+  }
+}
+
+
+@media (min-width: 601px) and (max-width: 960px) {
+  .fc-event-title {
+    font-size: 12px; 
+  }
+}
+
+
+@media (min-width: 961px) {
+  .fc-event-title {
+    font-size: 14px;
+  }
+}
