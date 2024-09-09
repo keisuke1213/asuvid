@@ -1,10 +1,12 @@
 .container {
   width: 85%;
   margin: 0 auto;
+  max-height: 60vh;
 }
 
 @media (max-width: 768px) {
   .container {
-    width: 95%;
+    width: 100%;
+    min-height: 100vh;
   }
 }
