@@ -25,6 +25,8 @@ export const Calendar: FC<CalenderProps> = ({ event }) => {
       plugins={[dayGridPlugin, interactionPlugin]}
       initialView="dayGridMonth"
       events={formattedEvents}
+      locale="ja"
+      contentHeight="auto"
     />
   );
 };

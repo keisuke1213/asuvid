@@ -14,7 +14,7 @@ const Home = async () => {
       formUrl: info.formUrl,
       dates: info.dates.map((date) => ({
         ...date,
-        date: new Date(date.date).toLocaleDateString(), // 日付のフォーマットを統一
+        date: new Date(date.date).toLocaleDateString(), 
       })),
     };
   });

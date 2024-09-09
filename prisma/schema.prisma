@@ -22,14 +22,14 @@ model Info {
   formUrl        String?
   createdAt      DateTime @default(now())
   updatedAt      DateTime @updatedAt
-  dates          Date[]
+  dates          Date[] @relation("InfoDates")
 }
 
 model Date {
   id             Int      @id @default(autoincrement())
   date           DateTime
   infoId         Int
-  info           Info     @relation(fields: [infoId], references: [id])
+  info           Info     @relation("InfoDates", fields: [infoId], references: [id], onDelete: Cascade)
 }
 
 

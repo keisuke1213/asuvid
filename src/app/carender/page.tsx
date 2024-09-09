@@ -17,13 +17,12 @@ export default async function CalendarPage() {
        event.push({
         id: date.id,
         title: info.name,
-        start: date.date,
+        start: date.date.split("T")[0],
       });
     })
   });
   return (
     <div className={styles.container}>
-      <h1>カレンダー</h1>
       <Calendar event={event} />
     </div>
   );
