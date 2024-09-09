@@ -14,7 +14,7 @@
 /*文字サイズ調整*/
 @media (max-width: 600px) {
   .fc-event-title {
-    font-size: 3px; 
+    font-size: 1px; 
   }
 }
 
