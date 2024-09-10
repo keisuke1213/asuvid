@@ -24,6 +24,10 @@ type DisplayInfoProps = {
 const titleStyle = {
   fontSize: "17px",
   fontWeight: 550,
+  "@media (max-width: 600px)": {
+    fontSize: "15px",
+    fontWeight:  600,
+  },
 };
 
 export const DisplayAllInfo: FC<DisplayInfoProps> = ({ info }) => {
@@ -42,12 +46,12 @@ export const DisplayAllInfo: FC<DisplayInfoProps> = ({ info }) => {
                   {item.name}
                 </Typography>
                 {item.dates ? (
-                  <Typography variant="body1" gutterBottom sx={{ mt: 3, ml: 1 }}>
+                  <Typography variant="subtitle1" gutterBottom sx={{ mt: 2, ml: 1 }}>
                     開催日: {item.dates.map((date) => date.date).join(", ")}
                   </Typography>
                 ) : null}
                 {item.deadline ? (
-                  <Typography variant="body1" gutterBottom sx={{ mt: 2, ml: 1 }}>
+                  <Typography variant="body1" gutterBottom sx={{ mt: 1, ml: 1 }}>
                     締め切り: {item.deadline}
                   </Typography>
                 ) : null}
