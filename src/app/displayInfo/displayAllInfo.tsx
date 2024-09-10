@@ -26,7 +26,7 @@ const titleStyle = {
   fontWeight: 550,
   "@media (max-width: 600px)": {
     fontSize: "15px",
-    fontWeight:  600,
+    fontWeight:  650,
   },
 };
 

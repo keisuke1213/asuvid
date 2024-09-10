@@ -10,13 +10,23 @@ const style = {
   transform: "translate(-50%, -50%)",
   width: 400,
   bgcolor: "background.paper",
-  border: "2px solid #000",
   boxShadow: "24px",
   p: 4,
+  border: "1px solid rgba(0, 0, 0, 0.8)", 
+  borderRadius: "8px",
   "@media (max-width: 600px)": {
     width: "75%",
   },
 };
+
+const TypographyStyle = {
+  fontSize: "17px",
+  fontWeight: 550,
+  "@media (max-width: 600px)": {
+    fontSize: "15px",
+    fontWeight:  650,
+  },
+}
 
 type Info = {
   id: string;
@@ -49,21 +59,12 @@ export default function DetailModal({ open, info, onClose }: EditModalProps) {
         }}
       >
         <Container sx={style}>
-          <Typography variant="h5" component="h2">
+          <Typography sx={TypographyStyle}>
             {info?.title}
           </Typography>
-          <Typography variant="body2" component="p">
-            Deadline: {new Date(info?.deadline!).toLocaleDateString()}
+          <Typography variant="body1" component="p" sx={{mt: 2}}>
+            締め切り: {new Date(info?.deadline!).toLocaleDateString()}
           </Typography>
-          {info?.url && (
-            <Typography variant="body2" component="p">
-              Form URL:{" "}
-              <Link href={info.url} target="_blank" rel="noopener">
-                {info.url}
-              </Link>
-            </Typography>
-          )}
-          <Button  onClick={onClose}>閉じる</Button>
         </Container>
       </Modal>
     </div>
