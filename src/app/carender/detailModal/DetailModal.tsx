@@ -2,7 +2,6 @@
 import * as React from "react";
 import { Typography, Link, Modal, Container, Button } from "@mui/material";
 
-
 const style = {
   position: "absolute" as "absolute",
   top: "50%",
@@ -12,13 +11,12 @@ const style = {
   bgcolor: "background.paper",
   boxShadow: "24px",
   p: 4,
-  border: "1px solid rgba(0, 0, 0, 0.4)", 
+  border: "1px solid rgba(0, 0, 0, 0.4)",
   borderRadius: "8px",
   "@media (max-width: 600px)": {
     width: "75%",
   },
 };
-
 
 type Info = {
   id: string;
@@ -37,6 +35,14 @@ type EditModalProps = {
 };
 
 export default function DetailModal({ open, info, onClose }: EditModalProps) {
+  
+    const removeLeadingZero = (dateString: string | undefined) => {
+      if(dateString === undefined) return "";
+      const date = new Date(dateString);
+      const month = date.getMonth() + 1;
+      const day = date.getDate();
+      return `${month}/${day}`;
+    };
 
   return (
     <div>
@@ -54,8 +60,8 @@ export default function DetailModal({ open, info, onClose }: EditModalProps) {
           <Typography variant="h6" component="h6">
             {info?.title}
           </Typography>
-          <Typography variant="body1" component="p" sx={{mt: 2}}>
-            締め切り: {new Date(info?.deadline!).toLocaleDateString()}
+          <Typography variant="body1" component="p" sx={{ mt: 2 }}>
+            締め切り: {removeLeadingZero(info?.deadline)}
           </Typography>
         </Container>
       </Modal>
