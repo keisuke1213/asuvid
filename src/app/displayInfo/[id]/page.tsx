@@ -5,8 +5,6 @@ import {
   Card,
   CardContent,
   List,
-  ListItem,
-  ListItemText,
   Link,
 } from "@mui/material";
 import { useSearchParams } from "next/navigation";
