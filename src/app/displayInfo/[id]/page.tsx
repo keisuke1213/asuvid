@@ -44,21 +44,18 @@ const DisplayInfo =  () => {
           <Typography variant="h5" component="h2">
             {name}
           </Typography>
-          <Typography color="textSecondary">{content}</Typography>
-          <Typography variant="h6" component="h3" gutterBottom>
-            Dates
-          </Typography>
+          <Typography color="textSecondary" sx={{mt: 3}}>{content}</Typography>
           <List>
-            <ListItem >
-              <ListItemText primary={dates?.join(", ")} />
-            </ListItem>
+            <Typography variant="body2" component="p" sx={{mt: 2}}>
+              日時 : {dates?.join(", ")}
+            </Typography>
           </List>
-          <Typography variant="body2" component="p">
-            Deadline: {deadline}
+          <Typography variant="body2" component="p" >
+            締め切り: {deadline}
           </Typography>
           {url && (
-            <Typography variant="body2" component="p">
-              Form URL:{" "}
+            <Typography variant="body2" component="p" sx={{mt: 2}}>
+               URL:{" "}
               <Link href={url} target="_blank" rel="noopener">
                 {url}
               </Link>
