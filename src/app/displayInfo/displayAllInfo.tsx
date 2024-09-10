@@ -24,10 +24,7 @@ type DisplayInfoProps = {
 const titleStyle = {
   fontSize: "17px",
   fontWeight: 550,
-  "@media (max-width: 600px)": {
-    fontSize: "15px",
-    fontWeight:  650,
-  },
+  ml: 1,
 };
 
 export const DisplayAllInfo: FC<DisplayInfoProps> = ({ info }) => {
