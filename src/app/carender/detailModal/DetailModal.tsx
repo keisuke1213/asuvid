@@ -1,7 +1,7 @@
 "use client";
 import * as React from "react";
-import { Typography, Link, Modal,Container, Button } from "@mui/material";
-import { useState } from "react";
+import { Typography, Link, Modal, Container, Button } from "@mui/material";
+
 
 const style = {
   position: "absolute" as "absolute",
@@ -9,9 +9,9 @@ const style = {
   left: "50%",
   transform: "translate(-50%, -50%)",
   width: 400,
-  bgcolor: 'background.paper',
+  bgcolor: "background.paper",
   border: "2px solid #000",
-  boxShadow: '24px',
+  boxShadow: "24px",
   p: 4,
   "@media (max-width: 600px)": {
     width: "75%",
@@ -26,16 +26,16 @@ type Info = {
   deadline: string;
   url: string;
   start: string;
-}
+};
 
 type EditModalProps = {
   open: boolean;
   info: Info | null;
   onClose: () => void;
 };
- 
-export default function DetailModal({open,info,onClose}: EditModalProps) {
-  
+
+export default function DetailModal({ open, info, onClose }: EditModalProps) {
+
   return (
     <div>
       <Modal
@@ -52,7 +52,6 @@ export default function DetailModal({open,info,onClose}: EditModalProps) {
           <Typography variant="h5" component="h2">
             {info?.title}
           </Typography>
-          <Typography color="textSecondary">{info?.content}</Typography>
           <Typography variant="body2" component="p">
             Deadline: {new Date(info?.deadline!).toLocaleDateString()}
           </Typography>
@@ -64,7 +63,7 @@ export default function DetailModal({open,info,onClose}: EditModalProps) {
               </Link>
             </Typography>
           )}
-          <Button onClick={onClose} >閉じる</Button>
+          <Button  onClick={onClose}>閉じる</Button>
         </Container>
       </Modal>
     </div>
