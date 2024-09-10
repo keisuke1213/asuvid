@@ -26,7 +26,9 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     ) {
       const extractInfo = async () => {
         const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
-        console.log("Model loaded");
+        
+        const currentYear = new Date().getFullYear();
+        const currentMonth = new Date().getMonth() + 1;
 
         const prompt = `${cleanedText}この情報の中からタイトル、日時、締め切り、URL、内容を抽出してください。
                       表示形式は以下の通りです。
@@ -37,6 +39,8 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
                       **URL:** URL
                       これは省力しないでください。情報がない場合は空白にしてください。
                         タイトルは名詞にしてください。
+                        現在の年は${currentYear}年です。
+                        現在の月は${currentMonth}月です。
                         日時、締め切りはiso8601形式に変換してください。
                         時間の出力は不要です。
                         複数の日程がある場合は空白区切りのみで出力してください。
@@ -74,12 +78,11 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       if (dateMatches) {
         dates = dateMatches[0].split(pattern);
       }
-      const updatedDate = dates.map((date) => {
-        const dateObj = new Date(date);
-        dateObj.setFullYear(dateObj.getFullYear() + 1);
-        return dateObj.toISOString();
-      });
-      console.log(updatedDate);
+
+      const parsedDate = dates.map((date) => {
+        const dateObj = new Date(date)
+        return dateObj.toISOString()
+    });
 
       const deadlinePattern =
         /\*\*締め切り:\*\*\s*(\d{4}-\d{2}-\d{2}(?:\d{2}:\d{2}:\d{2})?)(?:[,\s/]*(\d{4}-\d{2}-\d{2}(?:\d{2}:\d{2}:\d{2})?))*\s*/g;
@@ -87,14 +90,9 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         .match(deadlinePattern)
         ?.map((date) => date.replace(/\*\*締め切り:\*\*\s*/, "").trim());
 
-      const updateDeadline = deadlineMatches?.map((date) => {
-        const dateObj = new Date(date);
-        dateObj.setFullYear(dateObj.getFullYear() + 1);
-        return dateObj.toISOString();
-      });
       const deadline =
-        updateDeadline && updateDeadline.length > 0
-          ? new Date(updateDeadline[0])
+        deadlineMatches && deadlineMatches.length > 0
+          ? new Date(deadlineMatches[0])
           : null;
       console.log(deadline);
 
@@ -137,7 +135,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         });
         return date;
       };
-      const date = await createDate(updatedDate, info.id);
+      const date = await createDate(parsedDate, info.id);
     }
     res.status(200).json({ message: "Event received" });
   } else {
