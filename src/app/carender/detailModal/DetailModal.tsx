@@ -12,21 +12,13 @@ const style = {
   bgcolor: "background.paper",
   boxShadow: "24px",
   p: 4,
-  border: "1px solid rgba(0, 0, 0, 0.8)", 
+  border: "1px solid rgba(0, 0, 0, 0.4)", 
   borderRadius: "8px",
   "@media (max-width: 600px)": {
     width: "75%",
   },
 };
 
-const TypographyStyle = {
-  fontSize: "17px",
-  fontWeight: 550,
-  "@media (max-width: 600px)": {
-    fontSize: "15px",
-    fontWeight:  650,
-  },
-}
 
 type Info = {
   id: string;
@@ -59,7 +51,7 @@ export default function DetailModal({ open, info, onClose }: EditModalProps) {
         }}
       >
         <Container sx={style}>
-          <Typography sx={TypographyStyle}>
+          <Typography variant="h6" component="h6">
             {info?.title}
           </Typography>
           <Typography variant="body1" component="p" sx={{mt: 2}}>
