@@ -22,9 +22,11 @@ type DisplayInfoProps = {
 };
 
 const titleStyle = {
-  fontSize: "17px",
+  fontSize: "19px",
   fontWeight: 550,
   ml: 1,
+  display: "inline-block",
+  borderBottom: "2px solid rgba(0, 0, 255, 0.5)",
 };
 
 export const DisplayAllInfo: FC<DisplayInfoProps> = ({ info }) => {
