@@ -57,7 +57,7 @@ export const Header = () => {
     }
     setDrawerOpen(open);
   };
-  const menuItems = [{route : "/", text : 'Home'}, {route : "/carender", text : 'カレンダー'}];
+  
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static">
@@ -79,13 +79,16 @@ export const Header = () => {
             onKeyDown={toggleDrawer(false)}
           >
             <List>
-              {menuItems.map((item, index) => (
-                <ListItemButton  key={index}>
-                  <Link href={item.route}>
-                    {item.text}
+                <ListItemButton>
+                  <Link href="/">
+                    ホーム
                   </Link>
                 </ListItemButton>
-              ))}
+                <ListItemButton>
+                  <Link href="/carender">
+                    カレンダー
+                  </Link>
+                </ListItemButton>
             </List>
             <Divider />
           </div>

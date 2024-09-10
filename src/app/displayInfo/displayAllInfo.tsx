@@ -21,6 +21,11 @@ type DisplayInfoProps = {
   info: Info[];
 };
 
+const titleStyle = {
+  fontSize: "17px",
+  fontWeight: 550,
+};
+
 export const DisplayAllInfo: FC<DisplayInfoProps> = ({ info }) => {
   return (
     <Container>
@@ -32,43 +37,44 @@ export const DisplayAllInfo: FC<DisplayInfoProps> = ({ info }) => {
           {info.flat().map((item) => (
             <Grid item xs={12} sm={6} md={4} key={item.id}>
               <Paper elevation={3} sx={{ p: 2, position: "relative" }}>
-                <Box sx={{ position: "absolute", top: 8, right: 8 }}>
-                </Box>
-                <Typography variant="h6" component="h2" gutterBottom>
+                <Box sx={{ position: "absolute", top: 8, right: 8 }}></Box>
+                <Typography sx={titleStyle} gutterBottom>
                   {item.name}
                 </Typography>
                 {item.dates ? (
-                  <Typography variant="body1" gutterBottom>
+                  <Typography variant="body1" gutterBottom sx={{ mt: 3, ml: 1 }}>
                     開催日: {item.dates.map((date) => date.date).join(", ")}
                   </Typography>
                 ) : null}
                 {item.deadline ? (
-                  <Typography variant="body1" gutterBottom>
+                  <Typography variant="body1" gutterBottom sx={{ mt: 2, ml: 1 }}>
                     締め切り: {item.deadline}
                   </Typography>
                 ) : null}
-                <Button>
-                  <Link
-                    href={{
-                      pathname: `/displayInfo/${item.id}`,
-                      query: {
-                        id: item.id,
-                        name: item.name,
-                        content: item.content,
-                        url: item.formUrl,
-                        deadline: item.deadline,
-                        dates: item.dates.map((date) => date.date),
-                      },
-                    }}
-                  >
-                    詳細
-                  </Link>
-                </Button>
-                {item.formUrl ? (
+                <Box display="flex" alignItems="center" justifyContent="space-between" sx={{mt: 2, mx: 2}}>
+                  {item.formUrl ? (
+                    <Typography variant="body1" gutterBottom>
+                      <Link href={item.formUrl}>URL</Link>
+                    </Typography>
+                  ) : null}
                   <Typography variant="body1" gutterBottom>
-                    <Link href={item.formUrl}>申し込みはこちら</Link>
+                    <Link
+                      href={{
+                        pathname: `/displayInfo/${item.id}`,
+                        query: {
+                          id: item.id,
+                          name: item.name,
+                          content: item.content,
+                          url: item.formUrl,
+                          deadline: item.deadline,
+                          dates: item.dates.map((date) => date.date),
+                        },
+                      }}
+                    >
+                      詳細
+                    </Link>
                   </Typography>
-                ) : null}
+                </Box>
               </Paper>
             </Grid>
           ))}

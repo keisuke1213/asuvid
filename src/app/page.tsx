@@ -1,6 +1,7 @@
 import { DisplayAllInfo } from "./displayInfo/displayAllInfo";
 import { Header } from "./util/header";
 import { callGetAllInfos } from "./serverAction/callGetAllInfo";
+import Loading from "./loading";
 
 const Home = async () => {
   const infos = await callGetAllInfos();
