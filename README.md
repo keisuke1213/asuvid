@@ -1,39 +1,22 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+「サークル情報整理アプリ」
 
-## Getting Started
+概要
+LINEに流されたボランティア情報を整理してアプリに表示
+ー自動で簡単情報整理ー
 
-First, run the development server:
+背景
+私の所属するボランティアサークルでは、活動募集をLINEで行っている。
+しかし、サークル員からは「募集がありすぎて今何が募集されてるか分からない」、「情報が多すぎて管理に困る」
+などの声が上がっており、情報管理に課題があった。
+そこで、私は募集されてる活動をLINEから自動で取得し、アプリ上で整理して表示するアプリの作成を行った。
+カレンダー機能もつけて、スケジュールを把握しやすくした。
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+工夫した点
+１　募集情報が1目でわかるようなシンプルなUI
+２　UXを向上するためのSSR、SSGの使い分け
+３　締め切り日が近づいたらデザインの強調（バッチ処理によるステータスの変更）
+４　LINEから自動で情報を取得することによって、既存の仕組みを活用しながら簡単な運用が可能
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+技術構成
+Next.js, prisma
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
-
-#prisma
-npx prisma migrate dev --name
