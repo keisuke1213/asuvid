@@ -1,7 +1,7 @@
 import { NextApiRequest, NextApiResponse } from "next";
 const { GoogleGenerativeAI } = require("@google/generative-ai");
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_AI_API_KEY);
-import { PrismaClient } from "@prisma/client";
+import { PrismaClient, Status } from "@prisma/client";
 
 type Info = {
   title: string;
@@ -118,6 +118,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
             deadline: deadline,
             formUrl: url,
             content: content,
+            status: Status.RECRUITING
           },
         });
         return info;

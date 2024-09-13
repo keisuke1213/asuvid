@@ -14,12 +14,19 @@ datasource db {
   directUrl = env("POSTGRES_URL_NON_POOLING") // uses a direct connection
 }
 
+enum Status {
+  RECRUITING
+  DEADLINE_APPROACHING
+  END
+}
+
 model Info {
   id             Int      @id @default(autoincrement())
   name           String
   content        String
   deadline       DateTime?
   formUrl        String?
+  status         Status
   createdAt      DateTime @default(now())
   updatedAt      DateTime @updatedAt
   dates          Date[] @relation("InfoDates")

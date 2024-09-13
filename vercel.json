@@ -1,0 +1,8 @@
+{
+  "crons": [
+    {
+      "path": "/api/updateStatus",
+      "schedule": "0 15 * * *"
+    }
+  ]
+}
