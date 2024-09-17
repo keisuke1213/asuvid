@@ -1,4 +1,3 @@
-import { callGetAllInfos } from "../serverAction/callGetAllInfo";
 import { Calendar } from "./carender";
 
 type Event = {
@@ -11,8 +10,40 @@ type Event = {
   start: string;
 };
 
+type Info = {
+  id: number;
+  name: string;
+  content: string;
+  deadline: string;
+  formUrl: string;
+  dates: Date[];
+};
+
+type Date = {
+  id: number;
+  date: string;
+  infoId: number;
+};
+
+
+
+const fetchData = async() => {
+  const apiUrl = process.env.NEXT_PUBLIC_API_URL_CARENDER;
+  if (!apiUrl) {
+    console.log("API URL is not defined");
+  }
+  try {
+    const res = await fetch(apiUrl!, { cache: "no-store" });
+    const data = await res.json();
+    return data;
+  } catch (error: any) {
+    console.error("Error:", error.message);
+    return [];
+  }
+}
+
 export default async function CalendarPage() {
-  const infos = await callGetAllInfos();
+  const infos: Info[] = await fetchData();
   const event: Event[] = [];
 
   const emojiRegex =

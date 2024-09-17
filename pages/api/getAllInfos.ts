@@ -5,9 +5,6 @@ export default async function getAllInfos(req: NextApiRequest, res: NextApiRespo
   const prisma = new PrismaClient();
   try {
     const info = await prisma.info.findMany({
-      orderBy: {
-        id: "desc",
-      },
       include: {
         dates: true,
       },
