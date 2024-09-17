@@ -37,3 +37,5 @@ const updateStatus = async (req: NextApiRequest,res: NextApiResponse) => {
     await prisma.$disconnect();
   }
 };
+
+export default updateStatus;

@@ -1,39 +1,30 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# サークル情報整理アプリ
 
-## Getting Started
+## 概要
+ボランティア活動の募集情報をLINEから自動取得し、シンプルなUIで整理・表示するアプリです。  
+活動のスケジュールを管理しやすくするために、カレンダー機能を備えています。  
+**ー 自動で簡単情報整理 ー**
 
-First, run the development server:
+## 背景
+私の所属するボランティアサークルでは、LINEを通じて活動の募集が行われていますが、以下の課題がありました:
+- 「募集が多すぎて、現在どの活動が募集されているかわからない」
+- 「情報が多すぎて、管理が難しい」
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+これらの課題を解決するため、LINE上で共有された活動募集情報を自動で取得し、整理してアプリ上で表示する機能を開発しました。カレンダー機能も加え、活動スケジュールの把握が容易になります。
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 主な機能・工夫
+1. **シンプルなUI**: 募集情報が一目でわかるレイアウトを実現。
+2. **UX向上のためのSSR/SSG活用**: パフォーマンス向上のために、サーバーサイドレンダリング（SSR）と静的サイト生成（SSG）を適切に使い分け。
+3. **締め切りリマインド機能**: 締め切りが近づくとデザインを強調し、注意を促す（バッチ処理でステータスを変更）。
+4. **LINEからの自動情報取得**: 既存のLINEグループの仕組みを活用し、運用の負担を軽減。
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## 技術構成
+- **フロントエンド**: Next.js
+- **データベース**: Prisma（PostgreSQL）
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
-
-#prisma
-npx prisma migrate dev --name
+## 使い方
+1. LINEで共有された活動情報が自動的にアプリに取得されます。
+2. カレンダー機能で募集活動のスケジュールを確認できます。
+3. 締め切りが近づくと、募集情報が強調表示されます。
+<br>
+[アプリはこちら](https://asuvid.vercel.app/)
