@@ -107,11 +107,6 @@ export const DisplayAllInfo: FC<DisplayInfoProps> = ({ info }) => {
                         pathname: `/displayInfo/${item.id}`,
                         query: {
                           id: item.id,
-                          name: item.name,
-                          content: item.content,
-                          url: item.formUrl,
-                          deadline: item.deadline,
-                          dates: item.dates.map((date) => date.date),
                         },
                       }}
                     >
