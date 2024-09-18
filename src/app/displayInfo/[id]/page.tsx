@@ -4,12 +4,12 @@ import {
   Card,
   CardContent,
   List,
-  Link,
   Box,
 } from "@mui/material";
 import { PrismaClient } from "@prisma/client";
 import { orange } from "@mui/material/colors";
 import { green } from "@mui/material/colors";
+import Link from "next/link";
 
 type Date = {
   id: number;
@@ -57,7 +57,7 @@ const DisplayInfo = async ({ params: { id } }: { params: { id: string } }) => {
 
   return (
     <Container>
-      <Card sx={{ mt: 5 }}>
+      <Card sx={{ mt: 4.6 }}>
         <CardContent>
           <Typography variant="h5" component="h2" sx={titleStyle}>
             {info?.name}
@@ -101,8 +101,13 @@ const DisplayInfo = async ({ params: { id } }: { params: { id: string } }) => {
           )}
         </CardContent>
       </Card>
-      <Box sx={{ mt: 3 }} />
-      <Link href="/">戻る</Link>
+      <Box sx={{ mt: 3 }}>
+        <Link href="/" passHref>
+          <Typography variant="body1" sx={{ml: 1.2}}>
+            戻る
+          </Typography>
+        </Link>
+      </Box>
     </Container>
   );
 };
