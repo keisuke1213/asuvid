@@ -5,6 +5,7 @@ import {
   CardContent,
   List,
   Link,
+  Box,
 } from "@mui/material";
 import { PrismaClient } from "@prisma/client";
 import { orange } from "@mui/material/colors";
@@ -56,7 +57,7 @@ const DisplayInfo = async ({ params: { id } }: { params: { id: string } }) => {
 
   return (
     <Container>
-      <Card sx={{ mt: 6 }}>
+      <Card sx={{ mt: 5 }}>
         <CardContent>
           <Typography variant="h5" component="h2" sx={titleStyle}>
             {info?.name}
@@ -65,11 +66,11 @@ const DisplayInfo = async ({ params: { id } }: { params: { id: string } }) => {
             {info?.content}
           </Typography>
           <List>
-            <Typography variant="body1" component="p" sx={{ mt: 2 }}>
+            <Typography variant="body1" component="p" sx={{ mt: 1.6 }}>
               日時 :{" "}
               <Typography
                 component="span"
-                sx={{ fontWeight: "bold", color: dateColor, fontSize: "20px" }}
+                sx={{ fontWeight: "bold", color: dateColor, fontSize: "22px" }}
               >
                 {info?.dates
                   ?.map((date) => removeLeadingZero(date.date))
@@ -84,7 +85,7 @@ const DisplayInfo = async ({ params: { id } }: { params: { id: string } }) => {
               sx={{
                 fontWeight: "bold",
                 color: deadlineColor,
-                fontSize: "20px",
+                fontSize: "22px",
               }}
             >
               {removeLeadingZero(info?.deadline)}
@@ -100,6 +101,8 @@ const DisplayInfo = async ({ params: { id } }: { params: { id: string } }) => {
           )}
         </CardContent>
       </Card>
+      <Box sx={{ mt: 3 }} />
+      <Link href="/">戻る</Link>
     </Container>
   );
 };
