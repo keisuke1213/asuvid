@@ -1,6 +1,8 @@
 import { Container, Typography, Paper, Box, Grid, Button } from "@mui/material";
 import { FC } from "react";
 import Link from "next/link";
+import { green } from "@mui/material/colors";
+import {orange} from "@mui/material/colors";
 
 type DateType = {
   id: number;
@@ -23,15 +25,14 @@ type DisplayInfoProps = {
 };
 
 const titleStyle = {
-  fontSize: "18px",
+  fontSize: "19px",
   fontWeight: 600,
   ml: 1,
+  mt: 0.6,
 };
 
-const StatusLabels: Record<string, string> = {
-  RECRUITING: "募集中",
-  DEADLINE_APPROACHING: "締め切り間近",
-};
+const dateColor = green[500];
+const deadlineColor = orange[500];
 
 export const DisplayAllInfo: FC<DisplayInfoProps> = ({ info }) => {
   return (
@@ -56,6 +57,7 @@ export const DisplayAllInfo: FC<DisplayInfoProps> = ({ info }) => {
                       padding: "5px 10px",
                       display: "inline-block",
                       mb: 1,
+                      mt: 0.3
                     }}
                   >
                     <Typography variant="body1" align="center">
@@ -71,10 +73,10 @@ export const DisplayAllInfo: FC<DisplayInfoProps> = ({ info }) => {
                   <Typography
                     variant="body1"
                     gutterBottom
-                    sx={{ mt: 2, ml: 1 }}
+                    sx={{ mt: 1.2, ml: 1 }}
                   >
                     開催日:{" "}
-                    <Typography component="span" sx={{ fontWeight: "bold" }}>
+                    <Typography component="span" sx={{ fontWeight: "bold", color: dateColor, fontSize: "20px" }}>
                       {item.dates.map((date) => date.date).join(", ")}
                     </Typography>
                   </Typography>
@@ -85,7 +87,7 @@ export const DisplayAllInfo: FC<DisplayInfoProps> = ({ info }) => {
                     gutterBottom
                     sx={{ mt: 1, ml: 1 }}
                   >
-                    締め切り: <Typography component="span" sx={{fontWeight: "bold"}}>{item.deadline}</Typography>
+                    締め切り: <Typography component="span" sx={{fontWeight: "bold", color: deadlineColor, fontSize: "20px"}}>{item.deadline}</Typography>
                   </Typography>
                 ) : null}
                 <Box
