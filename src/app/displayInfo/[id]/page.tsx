@@ -7,11 +7,22 @@ import {
   Link,
 } from "@mui/material";
 import { PrismaClient } from "@prisma/client";
+import { orange } from "@mui/material/colors";
+import { green } from "@mui/material/colors";
 
 type Date = {
   id: number;
   date: string;
   infoId: number;
+};
+
+const deadlineColor = orange[500];
+const dateColor = green[500];
+
+const titleStyle = {
+  fontSize: "23x",
+  fontWeight: 600,
+  mt: 1.3,
 };
 
 const fetchData = async (id: number) => {
@@ -45,9 +56,9 @@ const DisplayInfo = async ({ params: { id } }: { params: { id: string } }) => {
 
   return (
     <Container>
-      <Card sx={{ mt: 4 }}>
+      <Card sx={{ mt: 6 }}>
         <CardContent>
-          <Typography variant="h5" component="h2">
+          <Typography variant="h5" component="h2" sx={titleStyle}>
             {info?.name}
           </Typography>
           <Typography color="textSecondary" sx={{ mt: 3 }}>
@@ -56,13 +67,28 @@ const DisplayInfo = async ({ params: { id } }: { params: { id: string } }) => {
           <List>
             <Typography variant="body1" component="p" sx={{ mt: 2 }}>
               日時 :{" "}
-              {info?.dates
-                ?.map((date) => removeLeadingZero(date.date))
-                .join(", ")}
+              <Typography
+                component="span"
+                sx={{ fontWeight: "bold", color: dateColor, fontSize: "20px" }}
+              >
+                {info?.dates
+                  ?.map((date) => removeLeadingZero(date.date))
+                  .join(", ")}
+              </Typography>
             </Typography>
           </List>
           <Typography variant="body1" component="p">
-            締め切り: {removeLeadingZero(info?.deadline)}
+            締め切り:{" "}
+            <Typography
+              component="span"
+              sx={{
+                fontWeight: "bold",
+                color: deadlineColor,
+                fontSize: "20px",
+              }}
+            >
+              {removeLeadingZero(info?.deadline)}
+            </Typography>
           </Typography>
           {info?.formUrl && (
             <Typography variant="body2" component="p" sx={{ mt: 2 }}>
