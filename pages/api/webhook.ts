@@ -14,6 +14,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
   console.log("Received request:", req.method);
   if (req.method === "POST") {
     const events = req.body.events;
+    console.log(events);
     const messageText = events[0].message.text;
     const textLength = messageText.length;
     const cleanedText = messageText.replace(/\((.*?)\)/g, "$1");
@@ -44,9 +45,11 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
                         日時、締め切りはiso8601形式に変換してください。
                         時間の出力は不要です。
                         複数の日程がある場合は空白区切りのみで出力してください。
+                        締め切りがない場合は、活動日時の2日前までとしてください。
                         内容は柔らかい文章にしてください。
                         内容は280字以内にしてください。
                         内容の文章に改行を含めないでください。
+                        連絡先が書いてある場合は、内容に含めてください。
                         毎回の出力形式は固定してください。
                         不要な改行はやめてください。
                         `;
