@@ -40,6 +40,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
                       **URL:** URL
                       これは省力しないでください。情報がない場合は空白にしてください。
                         タイトルは名詞にしてください。
+                        タイトルは具体的なものにしてください。
                         現在の年は${currentYear}年です。
                         現在の月は${currentMonth}月です。
                         日時、締め切りはiso8601形式に変換してください。
