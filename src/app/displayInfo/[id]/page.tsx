@@ -101,7 +101,7 @@ const DisplayInfo = async ({ params: { id } }: { params: { id: string } }) => {
           )}
         </CardContent>
       </Card>
-      <Box sx={{ mt: 3 }}>
+      <Box sx={{ mt: 2.3 }}>
         <Link href="/" passHref>
           <Typography variant="body1" sx={{ml: 1.2}}>
             戻る
