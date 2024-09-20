@@ -1,6 +1,7 @@
 "use client";
 import * as React from "react";
-import { Typography, Link, Modal, Container, Button } from "@mui/material";
+import { Typography, Modal, Container, } from "@mui/material";
+import { orange } from "@mui/material/colors";
 
 const style = {
   position: "absolute" as "absolute",
@@ -34,6 +35,8 @@ type EditModalProps = {
   onClose: () => void;
 };
 
+const deadlineColor = orange[500];
+
 export default function DetailModal({ open, info, onClose }: EditModalProps) {
   
     const removeLeadingZero = (dateString: string | undefined) => {
@@ -61,7 +64,17 @@ export default function DetailModal({ open, info, onClose }: EditModalProps) {
             {info?.title}
           </Typography>
           <Typography variant="body1" component="p" sx={{ mt: 2 }}>
-            締め切り: {removeLeadingZero(info?.deadline)}
+            締め切り:{" "}
+            <Typography
+              component="span"
+              sx={{
+                fontWeight: "bold",
+                color: deadlineColor,
+                fontSize: "18px",
+              }}
+            >
+              {removeLeadingZero(info?.deadline)}
+            </Typography>
           </Typography>
         </Container>
       </Modal>
