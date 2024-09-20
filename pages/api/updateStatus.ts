@@ -22,7 +22,7 @@ const updateStatus = async (req: NextApiRequest,res: NextApiResponse) => {
         ? Status.END
         : diff <= 3
         ? Status.DEADLINE_APPROACHING
-        : Status.END;
+        : Status.RECRUITING;
 
       if (info.status !== newStatus) {
         await prisma.info.update({
