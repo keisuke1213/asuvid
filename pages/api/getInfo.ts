@@ -18,6 +18,7 @@ export default async function getInfo(
         }
       ],
       where: {
+        type: "RECRUITMENT",
         OR: [
             {status: "RECRUITING"},
             {status: "DEADLINE_APPROACHING"}
