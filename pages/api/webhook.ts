@@ -1,7 +1,7 @@
 import { NextApiRequest, NextApiResponse } from "next";
 const { GoogleGenerativeAI } = require("@google/generative-ai");
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_AI_API_KEY);
-import { PrismaClient, Status } from "@prisma/client";
+import { InfoType, PrismaClient, Status } from "@prisma/client";
 
 type Info = {
   title: string;
@@ -14,7 +14,6 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
   console.log("Received request:", req.method);
   if (req.method === "POST") {
     const events = req.body.events;
-    console.log(events);
     const messageText = events[0].message.text;
     const textLength = messageText.length;
     const cleanedText = messageText.replace(/\((.*?)\)/g, "$1");
@@ -27,12 +26,14 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     ) {
       const extractInfo = async () => {
         const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
-        
+
         const currentYear = new Date().getFullYear();
         const currentMonth = new Date().getMonth() + 1;
 
         const prompt = `${cleanedText}この情報の中からタイトル、日時、締め切り、URL、内容を抽出してください。
+                      ${cleanedText}の内容をもとに、募集か連絡かの分類を判断してください。
                       表示形式は以下の通りです。
+                      **分類:** 分類
                       **タイトル:** タイトル
                       **日時:** 日時
                       **締め切り:** 締め切り
@@ -44,7 +45,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
                         現在の年は${currentYear}年です。
                         現在の月は${currentMonth}月です。
                         日時、締め切りはiso8601形式に変換してください。
-                        時間の出力は不要です。
+                      　日時に関しては、時間の取得はしないでください。
                         複数の日程がある場合は空白区切りのみで出力してください。
                         「まで」などの表現がある場合は、締め切りとして出力してください。
                         締め切りが推測できない場合は、活動日時の2日前までとしてください。
@@ -65,6 +66,10 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         return text;
       };
       const extractedInfo: string = await extractInfo();
+
+      const typeMatch = extractedInfo.match(/\*\*分類:\*\*\s*(.*)/);
+      const type = typeMatch ? typeMatch[1].trim() : null;
+      console.log(type);
 
       const titleMatch = extractedInfo.match(/\*\*タイトル:\*\*\s*(.*)/);
       const title = titleMatch ? titleMatch[1].trim() : null;
@@ -87,9 +92,11 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       }
 
       const parsedDate = dates.map((date) => {
-        const dateObj = new Date(date)
-        return dateObj.toISOString()
-    });
+        const dateObj = new Date(date);
+        return dateObj.toISOString();
+      });
+      console.log(parsedDate);
+      
 
       const deadlinePattern =
         /\*\*締め切り:\*\*\s*(\d{4}-\d{2}-\d{2}(?:\d{2}:\d{2}:\d{2})?)(?:[,\s/]*(\d{4}-\d{2}-\d{2}(?:\d{2}:\d{2}:\d{2})?))*\s*/g;
@@ -117,15 +124,19 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       };
 
       const prisma = new PrismaClient();
+      
+      const status = type === "募集" ? Status.RECRUITING : Status.NULL;
+
       const createInfo = async (infoData: Info) => {
         const { title, deadline, url, content } = infoData;
         const info = await prisma.info.create({
           data: {
+            type: type === "募集" ? InfoType.RECRUITMENT : InfoType.CONTACT,
             name: title,
             deadline: deadline,
             formUrl: url,
             content: content,
-            status: Status.RECRUITING
+            status: status,
           },
         });
         return info;
