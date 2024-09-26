@@ -1,42 +1,41 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
 generator client {
   provider = "prisma-client-js"
 }
 
 datasource db {
-  provider = "postgresql"
-  url = env("POSTGRES_PRISMA_URL") // uses connection pooling
-  directUrl = env("POSTGRES_URL_NON_POOLING") // uses a direct connection
+  provider  = "postgresql"
+  url       = env("POSTGRES_PRISMA_URL")
+  directUrl = env("POSTGRES_URL_NON_POOLING")
+}
+
+model Info {
+  id        Int       @id @default(autoincrement())
+  type      InfoType
+  name      String
+  deadline  DateTime?
+  formUrl   String?
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  content   String
+  status    Status
+  dates     Date[]    @relation("InfoDates")
+}
+
+model Date {
+  id     Int      @id @default(autoincrement())
+  date   DateTime
+  infoId Int
+  info   Info     @relation("InfoDates", fields: [infoId], references: [id], onDelete: Cascade)
 }
 
 enum Status {
   RECRUITING
   DEADLINE_APPROACHING
   END
+  NULL
 }
 
-model Info {
-  id             Int      @id @default(autoincrement())
-  name           String
-  content        String
-  deadline       DateTime?
-  formUrl        String?
-  status         Status
-  createdAt      DateTime @default(now())
-  updatedAt      DateTime @updatedAt
-  dates          Date[] @relation("InfoDates")
+enum InfoType {
+  RECRUITMENT
+  CONTACT
 }
-
-model Date {
-  id             Int      @id @default(autoincrement())
-  date           DateTime
-  infoId         Int
-  info           Info     @relation("InfoDates", fields: [infoId], references: [id], onDelete: Cascade)
-}
-
-

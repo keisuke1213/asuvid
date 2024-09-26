@@ -28,7 +28,8 @@
     "node-cron": "^3.0.3",
     "react": "^18",
     "react-chartjs-2": "^5.2.0",
-    "react-dom": "^18"
+    "react-dom": "^18",
+    "use-debounce": "^10.0.3"
   },
   "devDependencies": {
     "@types/node": "^20",

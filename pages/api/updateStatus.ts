@@ -11,7 +11,7 @@ const updateStatus = async (req: NextApiRequest,res: NextApiResponse) => {
     const infos = await prisma.info.findMany();
 
     for (const info of infos) {
-      if (!info.deadline) continue;
+      if (!info.deadline || info.status === Status.NULL) continue;
 
       const currentDate = new Date();
       const deadline = new Date(info.deadline);
