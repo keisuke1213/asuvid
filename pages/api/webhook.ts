@@ -18,7 +18,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     const textLength = messageText.length;
     const cleanedText = messageText.replace(/\((.*?)\)/g, "$1");
 
-    const unincludedWord = ["リマインド", "発表", "りまいんど", "Times"];
+    const unincludedWord = ["リマインド", "りまいんど", "Times"];
 
     if (
       textLength > 80 &&
