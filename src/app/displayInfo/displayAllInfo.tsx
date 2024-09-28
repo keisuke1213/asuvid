@@ -1,8 +1,8 @@
 import { Container, Typography, Paper, Box, Grid, Button } from "@mui/material";
 import { FC } from "react";
 import Link from "next/link";
-import { green } from "@mui/material/colors";
-import {orange} from "@mui/material/colors";
+import { deadlineColor } from "../util/style";
+import { dateColor } from "../util/style";
 
 type DateType = {
   id: number;
@@ -31,16 +31,10 @@ const titleStyle = {
   mt: 0.6,
 };
 
-const dateColor = green[500];
-const deadlineColor = orange[500];
-
 export const DisplayAllInfo: FC<DisplayInfoProps> = ({ info }) => {
   return (
     <Container>
-      <Box my={4}>
-        <Typography variant="h4" component="h1" gutterBottom>
-          募集一覧
-        </Typography>
+      <Box>
         <Grid container spacing={3}>
           {info.flat().map((item) => (
             <Grid item xs={12} sm={6} md={4} key={item.id}>
@@ -57,7 +51,7 @@ export const DisplayAllInfo: FC<DisplayInfoProps> = ({ info }) => {
                       padding: "5px 10px",
                       display: "inline-block",
                       mb: 1,
-                      mt: 0.3
+                      mt: 0.3,
                     }}
                   >
                     <Typography variant="body1" align="center">
@@ -76,7 +70,14 @@ export const DisplayAllInfo: FC<DisplayInfoProps> = ({ info }) => {
                     sx={{ mt: 1.2, ml: 1 }}
                   >
                     開催日:{" "}
-                    <Typography component="span" sx={{ fontWeight: "bold", color: dateColor, fontSize: "20px" }}>
+                    <Typography
+                      component="span"
+                      sx={{
+                        fontWeight: "bold",
+                        color: dateColor,
+                        fontSize: "20px",
+                      }}
+                    >
                       {item.dates.map((date) => date.date).join(", ")}
                     </Typography>
                   </Typography>
@@ -87,7 +88,17 @@ export const DisplayAllInfo: FC<DisplayInfoProps> = ({ info }) => {
                     gutterBottom
                     sx={{ mt: 1, ml: 1 }}
                   >
-                    締め切り: <Typography component="span" sx={{fontWeight: "bold", color: deadlineColor, fontSize: "20px"}}>{item.deadline}</Typography>
+                    締め切り:{" "}
+                    <Typography
+                      component="span"
+                      sx={{
+                        fontWeight: "bold",
+                        color: deadlineColor,
+                        fontSize: "20px",
+                      }}
+                    >
+                      {item.deadline}
+                    </Typography>
                   </Typography>
                 ) : null}
                 <Box

@@ -1,8 +1,8 @@
-
 import { Suspense } from "react";
 import { DisplayAllInfo } from "./displayInfo/displayAllInfo";
-import { Header } from "./util/header";
+import { Header } from "./util/header/header";
 import { SearchResult } from "./displayInfo/searchResult";
+import { Typography } from "@mui/material";
 
 type Info = {
   id: number;
@@ -29,7 +29,26 @@ const Home = async ({
   };
 }) => {
   const query = searchParams?.query || "";
+  console.log(query);
   const currentPage = Number(searchParams?.page) || 1;
+
+  let title: string | null = null;
+
+  switch (query) {
+    case "お知らせ":
+      title = "お知らせ";
+      break;
+    case "清掃":
+      title = "清掃";
+      break;
+    case "":
+      title = "募集一覧";
+      break;
+    default:
+      title = null;
+      break;
+  }
+
   const fetchData = async () => {
     const apiUrl = process.env.NEXT_PUBLIC_API_URL_HOME;
     if (!apiUrl) {
@@ -71,6 +90,9 @@ const Home = async ({
   return (
     <>
       <Header />
+      <Typography variant="h5" component="h1" gutterBottom sx={{ ml: 4 }}>
+        {title}
+      </Typography>
       {query ? (
         <Suspense key={query + currentPage} fallback={<div></div>}>
           <SearchResult query={query} currentPage={currentPage} />

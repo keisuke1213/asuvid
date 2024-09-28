@@ -3,7 +3,6 @@ import { Container, Box, Typography, Grid, Paper } from "@mui/material";
 import Link from "next/link";
 import { titleStyle, dateColor, deadlineColor } from "../util/style";
 
-
 export const SearchResult = async ({
   query,
   currentPage,
@@ -11,7 +10,6 @@ export const SearchResult = async ({
   query: string;
   currentPage: number;
 }) => {
- 
   const removeLeadingZero = (dateString: string) => {
     const date = new Date(dateString);
     const month = date.getMonth() + 1;
@@ -30,16 +28,13 @@ export const SearchResult = async ({
       status: info.status,
       dates: info.dates.map((date) => ({
         ...date,
-        date: removeLeadingZero(date.date), 
+        date: removeLeadingZero(date.date),
       })),
     };
   });
   return (
     <Container>
-      <Box my={4}>
-        <Typography variant="h4" component="h1" gutterBottom>
-          募集一覧
-        </Typography>
+      <Box>
         <Grid container spacing={3}>
           {info?.flat().map((item) => (
             <Grid item xs={12} sm={6} md={4} key={item.id}>
@@ -79,7 +74,7 @@ export const SearchResult = async ({
                       終了
                     </Typography>
                   </Box>
-                ): null}
+                ) : null}
                 <Box sx={{ position: "absolute", top: 8, right: 8 }}></Box>
                 <Typography sx={titleStyle} gutterBottom>
                   {item.name}
