@@ -2,7 +2,7 @@ import { Suspense } from "react";
 import { DisplayAllInfo } from "./displayInfo/displayAllInfo";
 import { Header } from "./util/header/header";
 import { SearchResult } from "./displayInfo/searchResult";
-import { Typography } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 
 type Info = {
   id: number;
@@ -91,7 +91,7 @@ const Home = async ({
     };
   });
   return (
-    <>
+    <Box sx={{ pb: 2.5 }}>
       <Header />
       <Typography
         component="h1"
@@ -105,11 +105,11 @@ const Home = async ({
           <SearchResult query={query} currentPage={currentPage} />
         </Suspense>
       ) : (
-        <>
+        <Box>
           <DisplayAllInfo info={info} />
-        </>
+        </Box>
       )}
-    </>
+    </Box>
   );
 };
 
