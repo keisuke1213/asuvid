@@ -91,7 +91,7 @@ const Home = async ({
     };
   });
   return (
-    <Box sx={{ pb: 2.5 }}>
+    <Box sx={{ pb: 3, mb: 3 }}>
       <Header />
       <Typography
         component="h1"
