@@ -1,5 +1,8 @@
+
+import { Suspense } from "react";
 import { DisplayAllInfo } from "./displayInfo/displayAllInfo";
 import { Header } from "./util/header";
+import { SearchResult } from "./displayInfo/searchResult";
 
 type Info = {
   id: number;
@@ -17,7 +20,16 @@ type Date = {
   infoId: number;
 };
 
-const Home = async () => {
+const Home = async ({
+  searchParams,
+}: {
+  searchParams?: {
+    query?: string;
+    page?: string;
+  };
+}) => {
+  const query = searchParams?.query || "";
+  const currentPage = Number(searchParams?.page) || 1;
   const fetchData = async () => {
     const apiUrl = process.env.NEXT_PUBLIC_API_URL_HOME;
     if (!apiUrl) {
@@ -31,7 +43,7 @@ const Home = async () => {
       console.error("Error:", error.message);
       return [];
     }
-  }
+  };
 
   const infos: Info[] = await fetchData();
 
@@ -52,14 +64,22 @@ const Home = async () => {
       status: info.status,
       dates: info.dates.map((date) => ({
         ...date,
-        date: removeLeadingZero(date.date), 
+        date: removeLeadingZero(date.date),
       })),
     };
   });
   return (
     <>
       <Header />
-      <DisplayAllInfo info={info} />
+      {query ? (
+        <Suspense key={query + currentPage} fallback={<div></div>}>
+          <SearchResult query={query} currentPage={currentPage} />
+        </Suspense>
+      ) : (
+        <>
+          <DisplayAllInfo info={info} />
+        </>
+      )}
     </>
   );
 };

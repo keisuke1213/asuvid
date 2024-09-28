@@ -31,7 +31,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         const currentMonth = new Date().getMonth() + 1;
 
         const prompt = `${cleanedText}この情報の中からタイトル、日時、締め切り、URL、内容を抽出してください。
-                      ${cleanedText}の内容をもとに、募集か連絡かの分類を判断してください。
+                      ${cleanedText}の内容をもとに、活動募集か連絡かの分類を判断してください。
                       表示形式は以下の通りです。
                       **分類:** 分類
                       **タイトル:** タイトル
@@ -123,13 +123,13 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
       const prisma = new PrismaClient();
       
-      const status = type === "募集" ? Status.RECRUITING : Status.NULL;
+      const status = type === "活動募集" ? Status.RECRUITING : Status.NULL;
 
       const createInfo = async (infoData: Info) => {
         const { title, deadline, url, content } = infoData;
         const info = await prisma.info.create({
           data: {
-            type: type === "募集" ? InfoType.RECRUITMENT : InfoType.CONTACT,
+            type: type === "活動募集" ? InfoType.RECRUITMENT : InfoType.CONTACT,
             name: title,
             deadline: deadline,
             formUrl: url,
