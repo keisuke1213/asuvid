@@ -96,7 +96,7 @@ const Home = async ({
       <Typography
         component="h1"
         gutterBottom
-        sx={{ ml: 4, fontSize: "22px", fontWeight: "bold" }}
+        sx={{ ml: 4, fontSize: "25px", fontWeight: "bold" }}
       >
         {title}
       </Typography>
