@@ -39,7 +39,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
     [theme.breakpoints.up("sm")]: {
       width: "30ch",
       "&:focus": {
-        width: "20ch",
+        width: "30ch",
       },
     },
   },
@@ -52,20 +52,18 @@ type SearchProps = {
 
 export const Search: FC<SearchProps> = ({ searchParams, handleSearch }) => {
   return (
-    <Box>
-      <SearchCom>
-        <SearchIconWrapper>
-          <SearchIcon />
-        </SearchIconWrapper>
-        <StyledInputBase
-          placeholder="Search…"
-          inputProps={{ "aria-label": "search" }}
-          onChange={(e) => {
-            handleSearch(e.target.value);
-          }}
-          defaultValue={searchParams?.get("query")?.toString()}
-        />
-      </SearchCom>
-    </Box>
+    <SearchCom>
+      <SearchIconWrapper>
+        <SearchIcon />
+      </SearchIconWrapper>
+      <StyledInputBase
+        placeholder="Search…"
+        inputProps={{ "aria-label": "search" }}
+        onChange={(e) => {
+          handleSearch(e.target.value);
+        }}
+        defaultValue={searchParams?.get("query")?.toString()}
+      />
+    </SearchCom>
   );
 };
