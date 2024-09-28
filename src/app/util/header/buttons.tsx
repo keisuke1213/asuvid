@@ -9,7 +9,7 @@ type ButtonsProps = {
 const buttonsMargin = {
   ml: 3,
   "@media(max-width: 400px)": {
-    ml: 0.3,
+    ml: 0.5,
   },
 };
 
