@@ -6,9 +6,16 @@ type ButtonsProps = {
   handleRedirect: () => void;
 };
 
+const buttonsMargin = {
+  ml: 3,
+  "@media(max-width: 400px)": {
+    ml: 0.3,
+  },
+};
+
 export const Buttons: FC<ButtonsProps> = ({ handleSearch, handleRedirect }) => {
   return (
-    <Box sx={{ ml: 3, mt: 1.3, display: "flex", gap: 1.5 }}>
+    <Box sx={{ ...buttonsMargin, mt: 1.3, display: "flex", gap: 1.5 }}>
       <Box
         sx={{
           backgroundColor: "#ef5350",
@@ -51,7 +58,7 @@ export const Buttons: FC<ButtonsProps> = ({ handleSearch, handleRedirect }) => {
           mt: 0.3,
         }}
       >
-        <Button onClick={() => handleSearch("終了")} sx={{ color: "white" }}>
+        <Button onClick={handleRedirect} sx={{ color: "white" }}>
           <Typography variant="body2">募集</Typography>
         </Button>
       </Box>
@@ -66,7 +73,7 @@ export const Buttons: FC<ButtonsProps> = ({ handleSearch, handleRedirect }) => {
           mt: 0.3,
         }}
       >
-        <Button onClick={handleRedirect} sx={{ color: "white" }}>
+        <Button onClick={() => handleSearch("終了")} sx={{ color: "white" }}>
           <Typography variant="body2">終了</Typography>
         </Button>
       </Box>

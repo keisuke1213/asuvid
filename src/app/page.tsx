@@ -41,6 +41,9 @@ const Home = async ({
     case "清掃":
       title = "清掃";
       break;
+    case "終了":
+      title = "募集終了";
+      break;
     case "":
       title = "募集一覧";
       break;
@@ -90,7 +93,11 @@ const Home = async ({
   return (
     <>
       <Header />
-      <Typography variant="h5" component="h1" gutterBottom sx={{ ml: 4 }}>
+      <Typography
+        component="h1"
+        gutterBottom
+        sx={{ ml: 4, fontSize: "22px", fontWeight: "bold" }}
+      >
         {title}
       </Typography>
       {query ? (
