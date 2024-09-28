@@ -30,7 +30,7 @@ export const Buttons: FC<ButtonsProps> = ({ handleSearch, handleRedirect }) => {
           onClick={() => handleSearch("お知らせ")}
           sx={{ color: "white" }}
         >
-          <Typography variant="body2">お知らせ</Typography>
+          <Typography variant="body1">お知らせ</Typography>
         </Button>
       </Box>
       <Box
@@ -44,7 +44,7 @@ export const Buttons: FC<ButtonsProps> = ({ handleSearch, handleRedirect }) => {
         }}
       >
         <Button onClick={() => handleSearch("清掃")} sx={{ color: "white" }}>
-          <Typography variant="body2">清掃</Typography>
+          <Typography variant="body1">清掃</Typography>
         </Button>
       </Box>
       <Box
@@ -59,7 +59,7 @@ export const Buttons: FC<ButtonsProps> = ({ handleSearch, handleRedirect }) => {
         }}
       >
         <Button onClick={handleRedirect} sx={{ color: "white" }}>
-          <Typography variant="body2">募集</Typography>
+          <Typography variant="body1">募集一覧</Typography>
         </Button>
       </Box>
       <Box
@@ -74,7 +74,7 @@ export const Buttons: FC<ButtonsProps> = ({ handleSearch, handleRedirect }) => {
         }}
       >
         <Button onClick={() => handleSearch("終了")} sx={{ color: "white" }}>
-          <Typography variant="body2">終了</Typography>
+          <Typography variant="body1">終了</Typography>
         </Button>
       </Box>
     </Box>

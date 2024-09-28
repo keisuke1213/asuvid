@@ -40,7 +40,7 @@ export const SearchResult = async ({
             <Grid item xs={12} sm={6} md={4} key={item.id}>
               <Paper
                 elevation={3}
-                sx={{ pt: 1, pb: 2, px: 2, position: "relative" }}
+                sx={{ pt: 1, pb: 1.5, px: 2, position: "relative" }}
               >
                 {item.status === "DEADLINE_APPROACHING" ? (
                   <Box
