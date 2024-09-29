@@ -7,8 +7,8 @@ import {
   Box,
 } from "@mui/material";
 import { PrismaClient } from "@prisma/client";
-import { orange } from "@mui/material/colors";
-import { green } from "@mui/material/colors";
+import { dateColor } from "@/app/util/style";
+import { deadlineColor } from "@/app/util/style";
 import Link from "next/link";
 
 type Date = {
@@ -16,9 +16,6 @@ type Date = {
   date: string;
   infoId: number;
 };
-
-const deadlineColor = orange[500];
-const dateColor = green[500];
 
 const titleStyle = {
   fontSize: "23x",
@@ -66,17 +63,23 @@ const DisplayInfo = async ({ params: { id } }: { params: { id: string } }) => {
             {info?.content}
           </Typography>
           <List>
-            <Typography variant="body1" component="p" sx={{ mt: 1.6 }}>
-              日時 :{" "}
-              <Typography
-                component="span"
-                sx={{ fontWeight: "bold", color: dateColor, fontSize: "22px" }}
-              >
-                {info?.dates
-                  ?.map((date) => removeLeadingZero(date.date))
-                  .join(", ")}
+            {info?.dates && info?.dates.length > 0 ? (
+              <Typography variant="body1" component="p" sx={{ mt: 1.6 }}>
+                日時 :{" "}
+                <Typography
+                  component="span"
+                  sx={{
+                    fontWeight: "bold",
+                    color: dateColor,
+                    fontSize: "22px",
+                  }}
+                >
+                  {info?.dates
+                    ?.map((date) => removeLeadingZero(date.date))
+                    .join(", ")}
+                </Typography>
               </Typography>
-            </Typography>
+            ) : null}
           </List>
           <Typography variant="body1" component="p">
             締め切り:{" "}
@@ -103,7 +106,7 @@ const DisplayInfo = async ({ params: { id } }: { params: { id: string } }) => {
       </Card>
       <Box sx={{ mt: 2 }}>
         <Link href="/" passHref>
-          <Typography variant="body1" sx={{ml: 1.2}}>
+          <Typography variant="body1" sx={{ ml: 1.2 }}>
             戻る
           </Typography>
         </Link>
