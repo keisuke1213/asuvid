@@ -20,6 +20,17 @@ type Date = {
   infoId: number;
 };
 
+const titleStyle = {
+  ml: 4,
+  fontSize: "25px",
+  fontWeight: "bold",
+  "@media (min-width: 1200px)": {
+    ml: 12,
+    fontSize: "33px",
+    mb: 3,
+  },
+};
+
 const Home = async ({
   searchParams,
 }: {
@@ -93,11 +104,7 @@ const Home = async ({
   return (
     <Box sx={{ pb: 3, mb: 3 }}>
       <Header />
-      <Typography
-        component="h1"
-        gutterBottom
-        sx={{ ml: 4, fontSize: "25px", fontWeight: "bold" }}
-      >
+      <Typography component="h1" gutterBottom sx={titleStyle}>
         {title}
       </Typography>
       {query ? (
