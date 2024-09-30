@@ -2,6 +2,7 @@ import { NextApiRequest, NextApiResponse } from "next";
 const { GoogleGenerativeAI } = require("@google/generative-ai");
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_AI_API_KEY);
 import { InfoType, PrismaClient, Status } from "@prisma/client";
+import { toZonedTime, format } from "date-fns-tz";
 
 type Info = {
   title: string;
@@ -25,7 +26,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       !unincludedWord.some((word) => cleanedText.includes(word))
     ) {
       const extractInfo = async () => {
-        const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+        const model = genAI.getGenerativeModel({ model: "gemini-1.5-pro" });
 
         const currentYear = new Date().getFullYear();
         const currentMonth = new Date().getMonth() + 1;
@@ -44,13 +45,15 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
                         タイトルは具体的なものにしてください。
                         現在の年は${currentYear}年です。
                         現在の月は${currentMonth}月です。
-                        日時、締め切りはiso8601形式に変換してください。
+                        日時、締め切りはiso8601形式で日本のタイムゾーンで出力してください。
                         日時に関しては、時間の取得はしないでください。
                         複数の日程がある場合は空白区切りのみで出力してください。
+                        11/20~11/25のような表現がある場合は、間の日程も出力してください。
                         「まで」などの表現がある場合は、締め切りとして出力してください。
-                        締め切りが推測できない場合は、活動日時の2日前までとしてください。
-                        締め切りが推測できないかつ、活動日時がない場合は、何も出力しないでください。
-                        内容は柔らかい文章にしてください。
+                        締め切りは、23:59:59.999までとしてください。
+                        締め切りは1つのみ出力してください。
+                        活動日時があり、締め切りが推測できない場合は、活動日時の2日前までとしてください。
+                        内容は柔らかい文章にして、読みやすいようにしてください。
                         内容は280字以内にしてください。
                         内容の文章に改行を含めないでください。
                         時間が書いてある場合は、必ず内容に含めてください。
@@ -97,21 +100,23 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         return dateObj.toISOString();
       });
       console.log(parsedDate);
-
       const deadlinePattern =
-        /\*\*締め切り:\*\*\s*(\d{4}-\d{2}-\d{2}(?:\d{2}:\d{2}:\d{2})?)(?:[,\s/]*(\d{4}-\d{2}-\d{2}(?:\d{2}:\d{2}:\d{2})?))*\s*/g;
+        /\*\*締め切り:\*\*\s*(\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}[+-]\d{2}:\d{2})(?:[,\s/]*(\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}[+-]\d{2}:\d{2}))*\s*/g;
+
       const deadlineMatches = extractedInfo
         .match(deadlinePattern)
         ?.map((date) => date.replace(/\*\*締め切り:\*\*\s*/, "").trim());
 
-      const deadline =
-        deadlineMatches && deadlineMatches.length > 0
-          ? new Date(deadlineMatches[0])
-          : null;
+      let deadline: string | null = null;
+
+      deadlineMatches && deadlineMatches.length > 0
+        ? (deadline = deadlineMatches[0])
+        : null;
+
       console.log(deadline);
 
       const urlMatches = extractedInfo.match(
-        /\*\*URL:\*\*\s*(https?:\/\/[^\s]*form[^\s]*)/
+        /\*\*URL:\*\*\s*(https?:\/\/[^\s]*)/
       );
       const url = urlMatches ? urlMatches[1].trim() : null;
       console.log(url);
