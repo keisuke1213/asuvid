@@ -2,7 +2,6 @@ import { NextApiRequest, NextApiResponse } from "next";
 const { GoogleGenerativeAI } = require("@google/generative-ai");
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_AI_API_KEY);
 import { InfoType, PrismaClient, Status } from "@prisma/client";
-import { toZonedTime, format } from "date-fns-tz";
 
 type Info = {
   title: string;
@@ -121,7 +120,14 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       const url = urlMatches ? urlMatches[1].trim() : null;
       console.log(url);
 
-      const infoData = {
+      type Info = {
+        title: string;
+        deadline: string | null;
+        url: string | null;
+        content: string;
+      };
+
+      const infoData: Info = {
         title: title!,
         deadline: deadline,
         url: url,
