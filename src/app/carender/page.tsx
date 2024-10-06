@@ -1,4 +1,4 @@
-import { Carendar } from "./Carender";
+import { Calendar } from "./Calendar";
 
 type Event = {
   id: string;
@@ -62,5 +62,5 @@ export default async function CalendarPage() {
       });
     });
   });
-  return <Carendar event={event} />;
+  return <Calendar event={event} />;
 }
