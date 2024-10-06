@@ -21,7 +21,7 @@ type CalenderProps = {
   event: Event[];
 };
 
-export const Calendar: FC<CalenderProps> = ({ event }) => {
+export const Carendar: FC<CalenderProps> = ({ event }) => {
   const [open, setOpen] = useState(false);
   const [info, setInfo] = useState<Event | null>(null);
 
