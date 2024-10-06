@@ -12,13 +12,12 @@ import {
   Toolbar,
   IconButton,
   Typography,
-  Button,
 } from "@mui/material";
 import Link from "next/link";
-import { Search } from "./search";
+import { Search } from "./Search";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useDebouncedCallback } from "use-debounce";
-import { Buttons } from "./buttons";
+import { Buttons } from "./Buttons";
 
 export const Header = () => {
   const [drawerOpen, setDrawerOpen] = useState(false);

@@ -1,8 +1,8 @@
 import { Container, Typography, Paper, Box, Grid, Button } from "@mui/material";
 import { FC } from "react";
 import Link from "next/link";
-import { deadlineColor } from "../util/style";
-import { dateColor } from "../util/style";
+import { deadlineColor } from "../ui/style";
+import { dateColor } from "../ui/style";
 
 type DateType = {
   id: number;
@@ -31,7 +31,7 @@ const titleStyle = {
   mt: 0.6,
 };
 
-export const DisplayAllInfo: FC<DisplayInfoProps> = ({ info }) => {
+export const InfoIndex: FC<DisplayInfoProps> = ({ info }) => {
   return (
     <Container>
       <Box>

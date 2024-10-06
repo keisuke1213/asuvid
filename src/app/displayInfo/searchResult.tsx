@@ -1,7 +1,7 @@
 import { fetchFilterdData } from "../serverAction/fetchFilterdData";
 import { Container, Box, Typography, Grid, Paper } from "@mui/material";
 import Link from "next/link";
-import { titleStyle, dateColor, deadlineColor } from "../util/style";
+import { titleStyle, dateColor, deadlineColor } from "../ui/style";
 
 export const SearchResult = async ({
   query,

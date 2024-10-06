@@ -1,6 +1,6 @@
 "use client";
 import * as React from "react";
-import { Typography, Modal, Container, } from "@mui/material";
+import { Typography, Modal, Container } from "@mui/material";
 import { orange } from "@mui/material/colors";
 
 const style = {
@@ -29,7 +29,7 @@ type Info = {
   start: string;
 };
 
-type EditModalProps = {
+type CarenderDetailModalProps = {
   open: boolean;
   info: Info | null;
   onClose: () => void;
@@ -37,15 +37,18 @@ type EditModalProps = {
 
 const deadlineColor = orange[500];
 
-export default function DetailModal({ open, info, onClose }: EditModalProps) {
-  
-    const removeLeadingZero = (dateString: string | undefined) => {
-      if(dateString === undefined) return "";
-      const date = new Date(dateString);
-      const month = date.getMonth() + 1;
-      const day = date.getDate();
-      return `${month}/${day}`;
-    };
+export default function CarenderDetailModal({
+  open,
+  info,
+  onClose,
+}: CarenderDetailModalProps) {
+  const removeLeadingZero = (dateString: string | undefined) => {
+    if (dateString === undefined) return "";
+    const date = new Date(dateString);
+    const month = date.getMonth() + 1;
+    const day = date.getDate();
+    return `${month}/${day}`;
+  };
 
   return (
     <div>
