@@ -5,7 +5,7 @@ import dayGridPlugin from "@fullcalendar/daygrid";
 import interactionPlugin from "@fullcalendar/interaction";
 import { FC } from "react";
 import { useState } from "react";
-import DetailModal from "./detailModal/DetailModal";
+import CarenderDetailModal from "./detailModal/CarenderDetailModal";
 
 type Event = {
   id: string;
@@ -26,7 +26,7 @@ export const Calendar: FC<CalenderProps> = ({ event }) => {
   const [info, setInfo] = useState<Event | null>(null);
 
   const handleClick = (clickInfo: any) => {
-    clickInfo.jsEvent.preventDefault(); 
+    clickInfo.jsEvent.preventDefault();
     setInfo(clickInfo.event.extendedProps as Event);
     setOpen(true);
   };
@@ -34,7 +34,7 @@ export const Calendar: FC<CalenderProps> = ({ event }) => {
   const handleClose = () => {
     setOpen(false);
     setInfo(null);
-  }
+  };
 
   return (
     <div className={styles.container}>
@@ -46,13 +46,13 @@ export const Calendar: FC<CalenderProps> = ({ event }) => {
           id: e.id,
           title: e.title,
           start: e.start,
-          extendedProps: e, 
+          extendedProps: e,
         }))}
         locale="ja"
         contentHeight="auto"
         eventClick={handleClick}
       />
-      <DetailModal open={open} info={info} onClose={handleClose} />
+      <CarenderDetailModal open={open} info={info} onClose={handleClose} />
     </div>
   );
 };

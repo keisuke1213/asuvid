@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import * as React from "react";
 import IconButton from "@mui/material/IconButton";
 import Menu from "@mui/material/Menu";
@@ -7,39 +7,31 @@ import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 import { useRouter } from "next/navigation";
 import { useInfoContext } from "../context/selectedInfo";
 
-
-const options = [
-  "編集",
-  "削除"
-];
+const options = ["編集", "削除"];
 
 const ITEM_HEIGHT = 48;
 
 type Info = {
-  id: number,
-  name: string,
-  date: string,
-  deadline: string,
-  formUrl: string 
-}
+  id: number;
+  name: string;
+  date: string;
+  deadline: string;
+  formUrl: string;
+};
 
-export default function MenuIcon({info}: {info: Info}) {
+export default function MenuIcon({ info }: { info: Info }) {
   const { setSelectedInfo } = useInfoContext();
-
-
 
   const router = useRouter();
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
- 
+
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
   };
   const handleClose = () => {
     setAnchorEl(null);
   };
-  
-
 
   const handleOptionClick = (option: string) => {
     if (option === "編集") {
@@ -48,8 +40,8 @@ export default function MenuIcon({info}: {info: Info}) {
     } else if (option === "削除") {
       router.push(`/displayInfo/${info.id}/delete`);
       setSelectedInfo(info);
-  }
-  }
+    }
+  };
 
   return (
     <div>
@@ -84,11 +76,10 @@ export default function MenuIcon({info}: {info: Info}) {
             selected={option === "Pyxis"}
             onClick={() => handleOptionClick(option)}
           >
-           {option}
+            {option}
           </MenuItem>
         ))}
       </Menu>
-
     </div>
   );
 }
