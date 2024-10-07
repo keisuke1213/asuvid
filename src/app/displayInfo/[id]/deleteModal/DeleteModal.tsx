@@ -2,6 +2,8 @@
 import * as React from "react";
 import { Typography, Modal, Container, Button, Box } from "@mui/material";
 import { deleteInfo } from "@/app/serverAction/deleteInfo";
+import { LoadingButton } from "@mui/lab";
+import { useState } from "react";
 
 type DeleteModalProps = {
   id: number;
@@ -14,7 +16,9 @@ export default function DeleteModal({
   handleClose,
   open,
 }: DeleteModalProps) {
+  const [loading, setLoading] = useState(false);
   const handleDelete = async () => {
+    setLoading(true);
     await deleteInfo(id);
     handleClose();
   };
@@ -33,8 +37,8 @@ export default function DeleteModal({
             position: "absolute",
             top: "50%",
             left: "50%",
+            width: { xs: "75%", sm: "80%", md: "60%", lg: "40%" },
             transform: "translate(-50%, -50%)",
-            width: 400,
             bgcolor: "background.paper",
             border: "2px solid",
             borderColor: "primary.main",
@@ -46,9 +50,16 @@ export default function DeleteModal({
             本当に削除しますか？
           </Typography>
           <Box sx={{ mt: 2, display: "flex", justifyContent: "space-between" }}>
-            <Button variant="contained" color="primary" onClick={handleDelete}>
-              削除する
-            </Button>
+            <LoadingButton
+              type="submit"
+              variant="contained"
+              color="primary"
+              loading={loading}
+              onClick={handleDelete}
+            >
+              削除
+            </LoadingButton>
+
             <Button variant="outlined" onClick={handleClose}>
               キャンセル
             </Button>

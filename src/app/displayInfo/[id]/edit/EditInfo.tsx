@@ -14,8 +14,10 @@ import FormControl from "@mui/material/FormControl";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
 import { updateInfo } from "@/app/serverAction/updateInfo";
 import { InfoContainer } from "@/app/types/infoType";
+import { LoadingButton } from "@mui/lab";
 
 export const EditInfo: FC<InfoContainer> = ({ info }) => {
+  const [loading, setLoading] = useState(false);
   const [deadline, setDeadline] = useState<Dayjs | null>(
     info.deadline ? dayjs(info.deadline) : null
   );
@@ -44,6 +46,7 @@ export const EditInfo: FC<InfoContainer> = ({ info }) => {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setLoading(true);
     const formData = new FormData(e.currentTarget);
     formData.append("type", type);
 
@@ -68,6 +71,7 @@ export const EditInfo: FC<InfoContainer> = ({ info }) => {
         width: 300,
         margin: "0 auto",
         mt: 4,
+        mb: 5,
       }}
     >
       <input type="hidden" name="id" value={info.id} />
@@ -157,9 +161,14 @@ export const EditInfo: FC<InfoContainer> = ({ info }) => {
         defaultValue={info?.formUrl}
       />
 
-      <Button type="submit" variant="contained" color="primary">
+      <LoadingButton
+        type="submit"
+        variant="contained"
+        color="primary"
+        loading={loading}
+      >
         編集
-      </Button>
+      </LoadingButton>
     </Box>
   );
 };
