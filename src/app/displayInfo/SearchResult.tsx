@@ -2,6 +2,7 @@ import { fetchFilterdData } from "../serverAction/fetchFilterdData";
 import { Container, Box, Typography, Grid, Paper } from "@mui/material";
 import Link from "next/link";
 import { titleStyle, dateColor, deadlineColor } from "../ui/style";
+import { removeLeadingZero } from "../util/removeLeadingZero";
 
 export const SearchResult = async ({
   query,
@@ -10,20 +11,13 @@ export const SearchResult = async ({
   query: string;
   currentPage: number;
 }) => {
-  const removeLeadingZero = (dateString: string) => {
-    const date = new Date(dateString);
-    const month = date.getMonth() + 1;
-    const day = date.getDate();
-    return `${month}/${day}`;
-  };
-
   const infos = await fetchFilterdData(query, currentPage);
   const info = infos?.map((info) => {
     return {
       id: info.id,
       name: info.name,
       content: info.content,
-      deadline: removeLeadingZero(info.deadline),
+      deadline: info.deadline ? removeLeadingZero(info.deadline) : null,
       formUrl: info.formUrl,
       status: info.status,
       dates: info.dates.map((date) => ({
@@ -32,6 +26,8 @@ export const SearchResult = async ({
       })),
     };
   });
+
+  console.log(info?.flat().map((item) => item.deadline));
   return (
     <Container>
       {info && info.length > 0 ? (
