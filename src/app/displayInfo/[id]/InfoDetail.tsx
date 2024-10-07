@@ -16,6 +16,8 @@ import { InfoContainer } from "@/app/types/infoType";
 import { removeLeadingZero } from "@/app/util/removeLeadingZero";
 import DeleteModal from "./deleteModal/DeleteModal";
 import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { LoadingButton } from "@mui/lab";
 
 const titleStyle = {
   fontSize: "23x",
@@ -25,12 +27,21 @@ const titleStyle = {
 
 export const InfoDetail: FC<InfoContainer> = ({ info }) => {
   const [isOpen, setIsOpen] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const router = useRouter();
+
   const handleOpen = () => {
     setIsOpen(true);
   };
   const handleClose = () => {
     setIsOpen(false);
   };
+
+  const handleClick = () => {
+    setLoading(true);
+    router.push(`${info?.id}/edit`);
+  };
+
   return (
     <Container>
       <Card sx={{ mt: 4.6 }}>
@@ -92,14 +103,14 @@ export const InfoDetail: FC<InfoContainer> = ({ info }) => {
           </Typography>
         </Link>
         <Box display="flex" alignItems="center" sx={{ gap: 1.5 }}>
-          <Button
-            component={Link}
-            href={`${info?.id}/edit`}
+          <LoadingButton
             variant="outlined"
             size="small"
+            loading={loading}
+            onClick={handleClick}
           >
             <Typography variant="body2">編集</Typography>
-          </Button>
+          </LoadingButton>
           <Button onClick={handleOpen} variant="outlined" size="small">
             <Typography variant="body2">削除</Typography>
           </Button>
