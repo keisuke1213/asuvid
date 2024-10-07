@@ -3,15 +3,25 @@ import { differenceInDays, isAfter } from "date-fns";
 import { Status } from "@prisma/client";
 import { NextApiRequest, NextApiResponse } from "next";
 
-
-const updateStatus = async (req: NextApiRequest,res: NextApiResponse) => {
+const updateStatus = async (req: NextApiRequest, res: NextApiResponse) => {
   console.log("called!");
   const prisma = new PrismaClient();
   try {
-    const infos = await prisma.info.findMany();
+    const infos = await prisma.info.findMany({
+      where: {
+        deadline: {
+          not: null,
+        },
+        status: {
+          not: {
+            in: ["END", "NULL"],
+          },
+        },
+      },
+    });
 
     for (const info of infos) {
-      if (!info.deadline || info.status === Status.NULL) continue;
+      if (!info.deadline || info.status === Status.NULL || Status.END) continue;
 
       const currentDate = new Date();
       const deadline = new Date(info.deadline);
