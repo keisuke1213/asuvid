@@ -21,8 +21,6 @@ const updateStatus = async (req: NextApiRequest, res: NextApiResponse) => {
     });
 
     for (const info of infos) {
-      if (!info.deadline || info.status === Status.NULL || Status.END) continue;
-
       const currentDate = new Date();
       const deadline = new Date(info.deadline);
 
