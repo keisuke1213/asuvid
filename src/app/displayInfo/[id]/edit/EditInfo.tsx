@@ -133,17 +133,16 @@ export const EditInfo: FC<InfoContainer> = ({ info }) => {
         </Button>
       </LocalizationProvider>
 
-      {info?.deadline ? (
-        <LocalizationProvider dateAdapter={AdapterDayjs}>
-          <DemoItem label="締め切り">
-            <DatePicker
-              value={deadline}
-              defaultValue={dayjs(info?.deadline)}
-              onChange={(newValue) => setDeadline(newValue)}
-            />
-          </DemoItem>
-        </LocalizationProvider>
-      ) : null}
+      <LocalizationProvider dateAdapter={AdapterDayjs}>
+        <DemoItem label="締め切り">
+          <DatePicker
+            value={deadline}
+            defaultValue={dayjs(info?.deadline)}
+            onChange={(newValue) => setDeadline(newValue)}
+          />
+        </DemoItem>
+      </LocalizationProvider>
+
       <TextField
         name="content"
         variant="outlined"
