@@ -43,7 +43,7 @@ export const InfoDetail: FC<InfoContainer> = ({ info }) => {
   };
 
   return (
-    <Container>
+    <Container sx={{ pb: 3 }}>
       <Card sx={{ mt: 4.6 }}>
         <CardContent>
           <Typography variant="h5" component="h2" sx={titleStyle}>
