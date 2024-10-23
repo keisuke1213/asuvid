@@ -3,9 +3,9 @@ import { differenceInDays, isAfter } from "date-fns";
 import { Status } from "@prisma/client";
 import { NextApiRequest, NextApiResponse } from "next";
 
+const prisma = new PrismaClient();
+
 const updateStatus = async (req: NextApiRequest, res: NextApiResponse) => {
-  console.log("called!");
-  const prisma = new PrismaClient();
   try {
     const infos = await prisma.info.findMany({
       where: {
