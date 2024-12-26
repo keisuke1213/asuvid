@@ -1,8 +1,7 @@
 "use server";
-import { PrismaClient } from "@prisma/client";
+import prisma from "../../../db";
 
 export const fetchDataById = async (id: number) => {
-  const prisma = new PrismaClient();
   try {
     const data = await prisma.info.findUnique({
       where: {
