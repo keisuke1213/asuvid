@@ -5,6 +5,8 @@ import { differenceInDays, isAfter } from "date-fns";
 
 type Status = "RECRUITING" | "DEADLINE_APPROACHING" | "END";
 
+export const dynamic = "force-dynamic";
+
 export const fetchListData = async (): Promise<
   (Info & { status: Status })[]
 > => {
