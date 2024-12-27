@@ -1,28 +1,9 @@
 import { Container, Typography, Paper, Box, Grid, Button } from "@mui/material";
-import { FC } from "react";
 import Link from "next/link";
 import { deadlineColor } from "../ui/style";
 import { dateColor } from "../ui/style";
-
-type DateType = {
-  id: number;
-  date: string;
-  infoId: number;
-};
-
-type Info = {
-  id: number;
-  name: string;
-  content: string;
-  deadline: string;
-  formUrl: string | null;
-  status: string;
-  dates: DateType[];
-};
-
-type DisplayInfoProps = {
-  info: Info[];
-};
+import { fetchListData } from "../serverAction/fetchListData";
+import { removeLeadingZero } from "../util/removeLeadingZero";
 
 const titleStyle = {
   fontSize: "19px",
@@ -31,13 +12,29 @@ const titleStyle = {
   mt: 0.6,
 };
 
-export const InfoIndex: FC<DisplayInfoProps> = ({ info }) => {
+export const InfoIndex = async () => {
+  const infos = await fetchListData();
+  const info = infos.map((info) => {
+    return {
+      id: info.id,
+      name: info.name,
+      content: info.content,
+      deadline: removeLeadingZero(info.deadline!),
+      formUrl: info.formUrl,
+      status: info.status,
+      dates: info.dates!.map((date) => ({
+        ...date,
+        date: removeLeadingZero(date.date),
+      })),
+    };
+  });
+
   return (
     <Container>
-      <Box>
-        {info && info.length > 0 ? (
-          <Grid container spacing={3}>
-            {info.flat().map((item) => (
+      {info && info.length > 0 ? (
+        <Grid container spacing={3}>
+          {info.flat().map((item) =>
+            item.status === "END" ? null : (
               <Grid item xs={12} sm={6} md={4} key={item.id}>
                 <Paper
                   elevation={3}
@@ -128,12 +125,12 @@ export const InfoIndex: FC<DisplayInfoProps> = ({ info }) => {
                   </Box>
                 </Paper>
               </Grid>
-            ))}
-          </Grid>
-        ) : (
-          <p>現在募集している活動はありません。</p>
-        )}
-      </Box>
+            )
+          )}
+        </Grid>
+      ) : (
+        <p>現在募集している活動はありません。</p>
+      )}
     </Container>
   );
 };

@@ -59,7 +59,7 @@ export const Buttons: FC<ButtonsProps> = ({ handleSearch, handleRedirect }) => {
         }}
       >
         <Button onClick={handleRedirect} sx={{ color: "white" }}>
-          <Typography variant="body2">募集一覧</Typography>
+          <Typography variant="body2">締切一覧</Typography>
         </Button>
       </Box>
       <Box

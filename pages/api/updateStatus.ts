@@ -1,9 +1,7 @@
-import { PrismaClient } from "@prisma/client";
+import prisma from "../../db";
 import { differenceInDays, isAfter } from "date-fns";
 import { Status } from "@prisma/client";
 import { NextApiRequest, NextApiResponse } from "next";
-
-const prisma = new PrismaClient();
 
 const updateStatus = async (req: NextApiRequest, res: NextApiResponse) => {
   try {

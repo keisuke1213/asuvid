@@ -1,10 +1,8 @@
 "use server";
-import { PrismaClient } from "@prisma/client";
+import prisma from "../../../db";
 import { redirect } from "next/navigation";
 
 export const deleteInfo = async (id: number) => {
-  const prisma = new PrismaClient();
-
   try {
     await prisma.info.delete({
       where: {

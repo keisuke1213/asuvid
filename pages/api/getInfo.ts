@@ -1,28 +1,23 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import { PrismaClient } from "@prisma/client";
+import prisma from "../../db";
 
 export default async function getInfo(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  const prisma = new PrismaClient();
   const { id } = req.body;
   console.log("id:", id);
-
 
   try {
     const info = await prisma.info.findMany({
       orderBy: [
         {
-            id: "desc"
-        }
+          id: "desc",
+        },
       ],
       where: {
         type: "RECRUITMENT",
-        OR: [
-            {status: "RECRUITING"},
-            {status: "DEADLINE_APPROACHING"}
-        ]
+        OR: [{ status: "RECRUITING" }, { status: "DEADLINE_APPROACHING" }],
       },
       include: {
         dates: true,
@@ -42,7 +37,7 @@ export default async function getInfo(
       ) {
         return 1;
       }
-        return 0;
+      return 0;
     });
     res.status(200).json(info);
   } catch (error: any) {

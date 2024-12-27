@@ -3,8 +3,6 @@ import { InfoIndex } from "./displayInfo/InfoIndex";
 import { Header } from "./ui/header/Header";
 import { SearchResult } from "./displayInfo/SearchResult";
 import { Box, Typography } from "@mui/material";
-import { Info } from "./types/infoType";
-import { removeLeadingZero } from "./util/removeLeadingZero";
 
 const titleStyle = {
   ml: 4,
@@ -26,7 +24,6 @@ const Home = async ({
   };
 }) => {
   const query = searchParams?.query || "";
-  console.log(query);
   const currentPage = Number(searchParams?.page) || 1;
 
   let title: string | null = null;
@@ -39,48 +36,16 @@ const Home = async ({
       title = "清掃";
       break;
     case "終了":
-      title = "募集終了";
+      title = "終了";
       break;
     case "":
-      title = "募集一覧";
+      title = "締切一覧";
       break;
     default:
       title = null;
       break;
   }
 
-  const fetchData = async () => {
-    const apiUrl = process.env.NEXT_PUBLIC_API_URL_HOME;
-    if (!apiUrl) {
-      console.log("API URL is not defined");
-    }
-    try {
-      const res = await fetch(apiUrl!, { cache: "no-store" });
-      const data = await res.json();
-      return data;
-    } catch (error: any) {
-      console.error("Error:", error.message);
-      return [];
-    }
-  };
-
-  const infos: Info[] = await fetchData();
-
-  console.log(infos);
-  const info = infos.map((info) => {
-    return {
-      id: info.id,
-      name: info.name,
-      content: info.content,
-      deadline: removeLeadingZero(info.deadline!),
-      formUrl: info.formUrl,
-      status: info.status,
-      dates: info.dates!.map((date) => ({
-        ...date,
-        date: removeLeadingZero(date.date),
-      })),
-    };
-  });
   return (
     <Box sx={{ pb: 3, mb: 3 }}>
       <Header />
@@ -93,7 +58,7 @@ const Home = async ({
         </Suspense>
       ) : (
         <Box>
-          <InfoIndex info={info} />
+          <InfoIndex />
         </Box>
       )}
     </Box>

@@ -1,8 +1,10 @@
-import { PrismaClient } from "@prisma/client";
+import prisma from "../../db";
 import { NextApiRequest, NextApiResponse } from "next";
 
-export default async function getAllInfos(req: NextApiRequest, res: NextApiResponse) {
-  const prisma = new PrismaClient();
+export default async function getAllInfos(
+  req: NextApiRequest,
+  res: NextApiResponse
+) {
   try {
     const info = await prisma.info.findMany({
       include: {

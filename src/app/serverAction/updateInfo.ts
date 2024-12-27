@@ -1,9 +1,9 @@
 "use server";
 import { InfoType, PrismaClient } from "@prisma/client";
 import { redirect } from "next/navigation";
+import prisma from "../../../db";
 
 export const updateInfo = async (formData: FormData) => {
-  const prisma = new PrismaClient();
   const infoId = Number(formData.get("id"));
   const data = {
     type: formData.get("type") as InfoType,

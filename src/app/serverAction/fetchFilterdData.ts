@@ -1,7 +1,6 @@
-import { PrismaClient } from "@prisma/client";
+import prisma from "../../../db";
 
 export const fetchFilterdData = async (query: string, currentPage: number) => {
-  const prisma = new PrismaClient();
   console.log("query:", query);
 
   const searchByName = async () => {
