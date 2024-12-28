@@ -1,11 +1,11 @@
 import prisma from "../../../db";
+import { updateStatus } from "../util/updateStatus";
+import { InfoWithStatus } from "../types/infoType";
 
-export const fetchFilterdData = async (query: string, currentPage: number) => {
-  console.log("query:", query);
-
-  const searchByName = async () => {
+export const fetchFilterdData = async (query: string) => {
+  const searchByName = async (): Promise<InfoWithStatus[]> => {
     try {
-      const info = await prisma.info.findMany({
+      const infos = await prisma.info.findMany({
         orderBy: [
           {
             id: "desc",
@@ -24,25 +24,11 @@ export const fetchFilterdData = async (query: string, currentPage: number) => {
           dates: true,
         },
       });
-      info.sort((a, b) => {
-        if (
-          a.status === "DEADLINE_APPROACHING" &&
-          b.status !== "DEADLINE_APPROACHING"
-        ) {
-          return -1;
-        }
-        if (
-          a.status !== "DEADLINE_APPROACHING" &&
-          b.status === "DEADLINE_APPROACHING"
-        ) {
-          return 1;
-        }
-        return 0;
-      });
-      console.log("info:", info);
-      return info;
+
+      return updateStatus(infos);
     } catch (e) {
       console.error(e);
+      return [];
     } finally {
       await prisma.$disconnect();
     }
@@ -63,7 +49,6 @@ export const fetchFilterdData = async (query: string, currentPage: number) => {
           dates: true,
         },
       });
-      console.log("info:", info);
       return info;
     } catch (e) {
       console.error(e);
@@ -87,7 +72,6 @@ export const fetchFilterdData = async (query: string, currentPage: number) => {
           dates: true,
         },
       });
-      console.log("info:", info);
       return info;
     } catch (e) {
       console.error(e);
