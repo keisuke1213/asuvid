@@ -18,3 +18,6 @@ type DateType = {
 export type InfoContainer = {
   info: Info;
 };
+
+export type InfoWithStatus = Info & { status: Status };
+export type Status = "RECRUITING" | "DEADLINE_APPROACHING" | "END" | "NULL";
