@@ -3,22 +3,18 @@ import { subMonths } from "date-fns";
 import { Info } from "../types/infoType";
 import { differenceInDays, isAfter } from "date-fns";
 
-type Status = "RECRUITING" | "DEADLINE_APPROACHING" | "END";
+type Status = "RECRUITING" | "DEADLINE_APPROACHING";
 
 export const dynamic = "force-dynamic";
 
 export const fetchListData = async (): Promise<
   (Info & { status: Status })[]
 > => {
-  const lastMonth = subMonths(new Date(), 1);
-
+  const currentDate = new Date();
   const infos = await prisma.info.findMany({
     where: {
-      createdAt: {
-        gte: lastMonth,
-      },
       deadline: {
-        not: null,
+        gt: currentDate,
       },
     },
     include: {
@@ -27,14 +23,11 @@ export const fetchListData = async (): Promise<
   });
 
   const updatedInfos = infos.map((info) => {
-    const currentDate = new Date();
     const deadline = new Date(info.deadline!);
     const diff = differenceInDays(deadline, currentDate);
 
     let status: Status;
-    if (isAfter(currentDate, deadline)) {
-      status = "END";
-    } else if (diff <= 3) {
+    if (diff < 3) {
       status = "DEADLINE_APPROACHING";
     } else {
       status = "RECRUITING";
