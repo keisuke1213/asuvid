@@ -1,6 +1,6 @@
 import prisma from "../../../db";
 import { updateStatus } from "../util/updateStatus";
-import { InfoWithStatus } from "../types/infoType";
+import { Info, InfoWithStatus } from "../types/infoType";
 
 export const fetchFilterdData = async (query: string) => {
   const searchByName = async (): Promise<InfoWithStatus[]> => {
@@ -34,8 +34,9 @@ export const fetchFilterdData = async (query: string) => {
     }
   };
 
-  const searchByType = async () => {
+  const searchByType = async (): Promise<Info[]> => {
     try {
+      const currentDate = new Date();
       const info = await prisma.info.findMany({
         orderBy: [
           {
@@ -52,29 +53,33 @@ export const fetchFilterdData = async (query: string) => {
       return info;
     } catch (e) {
       console.error(e);
+      return [];
     } finally {
       await prisma.$disconnect();
     }
   };
 
-  const searchByStatus = async () => {
+  const searchExpiredData = async (): Promise<InfoWithStatus[]> => {
     try {
-      const info = await prisma.info.findMany({
+      const infos = await prisma.info.findMany({
         orderBy: [
           {
             id: "desc",
           },
         ],
         where: {
-          status: "END",
+          deadline: {
+            lt: new Date(),
+          },
         },
         include: {
           dates: true,
         },
       });
-      return info;
+      return updateStatus(infos);
     } catch (e) {
       console.error(e);
+      return [];
     } finally {
       await prisma.$disconnect();
     }
@@ -84,7 +89,7 @@ export const fetchFilterdData = async (query: string) => {
     case "お知らせ":
       return searchByType();
     case "終了":
-      return searchByStatus();
+      return searchExpiredData();
     default:
       return searchByName();
   }

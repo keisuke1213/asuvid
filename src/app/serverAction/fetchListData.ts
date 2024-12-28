@@ -10,7 +10,7 @@ export const fetchListData = async (): Promise<InfoWithStatus[]> => {
     const infos = await prisma.info.findMany({
       where: {
         deadline: {
-          gt: currentDate,
+          gte: currentDate,
         },
       },
       include: {
