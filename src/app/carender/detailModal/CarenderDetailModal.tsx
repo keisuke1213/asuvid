@@ -66,19 +66,21 @@ export default function CarenderDetailModal({
           <Typography variant="h6" component="h6">
             {info?.title}
           </Typography>
-          <Typography variant="body1" component="p" sx={{ mt: 2 }}>
-            締め切り:{" "}
-            <Typography
-              component="span"
-              sx={{
-                fontWeight: "bold",
-                color: deadlineColor,
-                fontSize: "18px",
-              }}
-            >
-              {removeLeadingZero(info?.deadline)}
+          {info?.deadline && (
+            <Typography variant="body1" component="p" sx={{ mt: 2 }}>
+              締め切り:{" "}
+              <Typography
+                component="span"
+                sx={{
+                  fontWeight: "bold",
+                  color: deadlineColor,
+                  fontSize: "18px",
+                }}
+              >
+                {removeLeadingZero(info?.deadline)}
+              </Typography>
             </Typography>
-          </Typography>
+          )}
         </Container>
       </Modal>
     </div>

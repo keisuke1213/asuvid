@@ -12,7 +12,6 @@ type Info = {
 };
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
-  console.log("Received request:", req.method);
   if (req.method === "POST") {
     const events = req.body.events;
     const messageText = events[0].message.text;
