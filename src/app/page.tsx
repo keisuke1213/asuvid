@@ -58,11 +58,11 @@ const Home = async ({
           <SearchResult query={query} currentPage={currentPage} />
         </Suspense>
       ) : (
-        <Suspense fallback={<ListSkeleton />}>
-          <Box>
+        <Box>
+          <Suspense fallback={<ListSkeleton />}>
             <InfoIndex />
-          </Box>
-        </Suspense>
+          </Suspense>
+        </Box>
       )}
     </Box>
   );
