@@ -1,7 +1,7 @@
 {
   "crons": [
     {
-      "path": "/api/updateStatus",
+      "path": "/api/deleteOldData",
       "schedule": "0 15 * * *"
     }
   ]
