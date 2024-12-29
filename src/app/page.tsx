@@ -3,6 +3,7 @@ import { InfoIndex } from "./displayInfo/InfoIndex";
 import { Header } from "./ui/header/Header";
 import { SearchResult } from "./displayInfo/SearchResult";
 import { Box, Typography } from "@mui/material";
+import { ListSkeleton } from "./ui/listSkeleton";
 
 const titleStyle = {
   ml: 4,
@@ -53,13 +54,15 @@ const Home = async ({
         {title}
       </Typography>
       {query ? (
-        <Suspense key={query + currentPage} fallback={<div></div>}>
+        <Suspense key={query + currentPage} fallback={<ListSkeleton />}>
           <SearchResult query={query} currentPage={currentPage} />
         </Suspense>
       ) : (
-        <Box>
-          <InfoIndex />
-        </Box>
+        <Suspense fallback={<ListSkeleton />}>
+          <Box>
+            <InfoIndex />
+          </Box>
+        </Suspense>
       )}
     </Box>
   );
