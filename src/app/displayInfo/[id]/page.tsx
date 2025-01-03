@@ -1,5 +1,6 @@
 import { PrismaClient } from "@prisma/client";
 import { InfoDetail } from "./InfoDetail";
+import { verifyAdminSession } from "@/app/serverAction/auth";
 
 const fetchData = async (id: number) => {
   const prisma = new PrismaClient();
@@ -26,13 +27,14 @@ export default async function InfoDetailPage({
   params: { id: string };
 }) {
   const info = await fetchData(Number(id));
+  const isSessionValid = await verifyAdminSession();
   if (!info) {
     return <div>データがありません</div>;
   }
 
   return (
     <>
-      <InfoDetail info={info} />
+      <InfoDetail info={info} isSessionValid={isSessionValid} />
     </>
   );
 }

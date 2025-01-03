@@ -13,10 +13,14 @@ import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
 import { updateInfo } from "@/app/serverAction/updateInfo";
-import { InfoContainer } from "@/app/types/infoType";
 import { LoadingButton } from "@mui/lab";
+import { Info } from "@/app/types/infoType";
 
-export const EditInfo: FC<InfoContainer> = ({ info }) => {
+type EditInfoProps = {
+  info: Info;
+};
+
+export const EditInfo: FC<EditInfoProps> = ({ info }) => {
   const [loading, setLoading] = useState(false);
   const [deadline, setDeadline] = useState<Dayjs | null>(
     info.deadline ? dayjs(info.deadline) : null
