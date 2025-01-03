@@ -9,6 +9,8 @@ import { SignInFormSchema } from "@/app/lib/definitions";
 import { cookies } from "next/headers";
 import { decrypt } from "../lib/sessions";
 
+const expiresAt = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000);
+
 export const signup = async (state: void | FormState, formData: FormData) => {
   // Validate form fields
   const validatedFields = SignupFormSchema.safeParse({
@@ -38,7 +40,7 @@ export const signup = async (state: void | FormState, formData: FormData) => {
       },
     });
 
-    await createSession(user.id.toString(), isAdmin);
+    await createSession(user.id.toString(), isAdmin, expiresAt);
     isRedirect = true;
   } catch (error) {
     return console.error(
@@ -75,13 +77,13 @@ export const signin = async (state: FormState, formData: FormData) => {
     const isPasswordValid = await bcrypt.compare(password, user!.password);
     if (!user || !isPasswordValid) {
       return {
-        message: "Invalid email or password.",
+        message: "Email or password is incorrect.",
       };
     }
     if (isPasswordValid) {
       isRedirect = true;
     }
-    await createSession(user.id.toString(), user.isAdmin);
+    await createSession(user.id.toString(), user.isAdmin, expiresAt);
   } catch (error) {
     return {
       message: "An error occurred while signing in. Please try again later.",

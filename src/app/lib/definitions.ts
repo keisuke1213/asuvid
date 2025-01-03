@@ -23,6 +23,10 @@ export const SignInFormSchema = z.object({
   password: z.string().min(8).trim(),
 });
 
+export const MailFormSchema = z.object({
+  email: z.string().email({ message: "Please enter a valid email." }).trim(),
+});
+
 export type FormState =
   | {
       errors?: {

@@ -7,10 +7,13 @@ const secretKey = process.env.JWT_SECRET_KEY;
 const encodedKey = new TextEncoder().encode(secretKey);
 
 export async function encrypt(payload: SessionPayload) {
+  const expirationTime =
+    Math.floor((new Date(payload.expiresAt).getTime() - Date.now()) / 1000) +
+    "s";
   return new SignJWT(payload)
     .setProtectedHeader({ alg: "HS256" })
     .setIssuedAt()
-    .setExpirationTime("7d")
+    .setExpirationTime(expirationTime)
     .sign(encodedKey);
 }
 
@@ -25,11 +28,13 @@ export async function decrypt(session: string | undefined = "") {
   }
 }
 
-export async function createSession(userId: string, isAdmin: boolean) {
-  const expiresAt = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000);
+export async function createSession(
+  userId: string,
+  isAdmin: boolean,
+  expiresAt: Date
+) {
   const session = await encrypt({ userId, expiresAt, isAdmin });
   const cookieStore = await cookies();
-
   cookieStore.set("session", session, {
     httpOnly: true,
     secure: true,
@@ -37,6 +42,7 @@ export async function createSession(userId: string, isAdmin: boolean) {
     sameSite: "lax",
     path: "/",
   });
+  return session;
 }
 
 export async function updateSession() {
