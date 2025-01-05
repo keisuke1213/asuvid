@@ -31,7 +31,8 @@ export const sendMail = async (state: FormState, formData: FormData) => {
       },
     });
 
-    const url = `http://localhost:3000/admin/signUp?token=${token}`;
+    const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000";
+    const url = `${baseUrl}/admin/signUp?token=${token}`;
     const { email } = validatedFields.data;
 
     await transporter.sendMail({
