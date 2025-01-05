@@ -56,6 +56,7 @@ export const signin = async (state: FormState, formData: FormData) => {
   const validatedFields = SignInFormSchema.safeParse({
     email: formData.get("email"),
     password: formData.get("password"),
+    isAdmin: formData.get("admin") === "admin" ? true : false,
   });
 
   if (!validatedFields.success) {
@@ -64,7 +65,7 @@ export const signin = async (state: FormState, formData: FormData) => {
     };
   }
 
-  const { email, password } = validatedFields.data;
+  const { email, password, isAdmin } = validatedFields.data;
   let isRedirect = false;
 
   try {
@@ -83,7 +84,7 @@ export const signin = async (state: FormState, formData: FormData) => {
     if (isPasswordValid) {
       isRedirect = true;
     }
-    await createSession(user.id.toString(), user.isAdmin, expiresAt);
+    await createSession(user.id.toString(), isAdmin, expiresAt);
   } catch (error) {
     return {
       message: "An error occurred while signing in. Please try again later.",

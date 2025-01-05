@@ -8,17 +8,19 @@ export default async function middleware(req: NextRequest) {
   // `/admin/signUp` の処理
   if (pathname === "/admin/signUp") {
     const token = searchParams.get("token");
-    console.log("token", token);
     if (!token) {
       return NextResponse.redirect(new URL("/unauthorized", req.url));
     }
 
     try {
-      decrypt(token);
-      return NextResponse.next();
-    } catch (error) {
-      return NextResponse.redirect(new URL("/unauthorized", req.url)); // 修正済み
+      const decrypted = await decrypt(token);
+      if (decrypted) {
+        return NextResponse.next();
+      }
+    } catch (error: any) {
+      console.error(error);
     }
+    return NextResponse.redirect(new URL("/unauthorized", req.url));
   }
 
   const cookie = (await cookies()).get("session")?.value;

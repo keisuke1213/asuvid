@@ -2,6 +2,7 @@
 import nodemailer from "nodemailer";
 import { FormState, MailFormSchema } from "../lib/definitions";
 import { createSession } from "../lib/sessions";
+import { v4 as uuidv4 } from "uuid";
 
 export const sendMail = async (state: FormState, formData: FormData) => {
   const validatedFields = MailFormSchema.safeParse({
@@ -17,9 +18,9 @@ export const sendMail = async (state: FormState, formData: FormData) => {
     };
   }
   try {
-    const { email } = validatedFields.data;
+    const id = uuidv4();
     const expiresAt = new Date(Date.now() + 30 * 60 * 1000);
-    const token = await createSession(email, true, expiresAt);
+    const token = await createSession(id, true, expiresAt);
     const transporter = nodemailer.createTransport({
       host: "smtp.gmail.com",
       port: 587,
@@ -31,6 +32,7 @@ export const sendMail = async (state: FormState, formData: FormData) => {
     });
 
     const url = `http://localhost:3000/admin/signUp?token=${token}`;
+    const { email } = validatedFields.data;
 
     await transporter.sendMail({
       from: mail,

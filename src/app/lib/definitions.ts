@@ -21,6 +21,7 @@ export const SignupFormSchema = z.object({
 export const SignInFormSchema = z.object({
   email: z.string().email({ message: "Please enter a valid email." }).trim(),
   password: z.string().min(8).trim(),
+  isAdmin: z.boolean(),
 });
 
 export const MailFormSchema = z.object({
