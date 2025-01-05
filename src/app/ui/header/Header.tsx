@@ -18,8 +18,9 @@ import { Search } from "./Search";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useDebouncedCallback } from "use-debounce";
 import { Buttons } from "./Buttons";
+import { LinkSwitch } from "./LInkSwitch";
 
-export const Header = () => {
+export const Header = ({ props }: { props: string }) => {
   const [drawerOpen, setDrawerOpen] = useState(false);
 
   const toggleDrawer =
@@ -40,7 +41,6 @@ export const Header = () => {
   const router = useRouter();
 
   const handleSearch = useDebouncedCallback((term: string) => {
-    console.log(term);
     const params = new URLSearchParams(searchParams!);
     if (term) {
       params.set("query", term);
@@ -79,14 +79,7 @@ export const Header = () => {
                 onClick={toggleDrawer(false)}
                 onKeyDown={toggleDrawer(false)}
               >
-                <List>
-                  <ListItemButton>
-                    <Link href="/">ホーム</Link>
-                  </ListItemButton>
-                  <ListItemButton>
-                    <Link href="/carender">カレンダー</Link>
-                  </ListItemButton>
-                </List>
+                <LinkSwitch props={props} />
                 <Divider />
               </div>
             </Drawer>
@@ -98,11 +91,18 @@ export const Header = () => {
             >
               ASUVID
             </Typography>
-            <Search searchParams={searchParams!} handleSearch={handleSearch} />
+            {props !== "/admin" && (
+              <Search
+                searchParams={searchParams!}
+                handleSearch={handleSearch}
+              />
+            )}
           </Toolbar>
         </AppBar>
       </Box>
-      <Buttons handleSearch={handleSearch} handleRedirect={handleRedirect} />
+      {props !== "/admin" && (
+        <Buttons handleSearch={handleSearch} handleRedirect={handleRedirect} />
+      )}
     </Box>
   );
 };
