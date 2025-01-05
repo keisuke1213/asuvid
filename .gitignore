@@ -38,3 +38,7 @@ next-env.d.ts
 
 #ngrok
 ngrok.yml
+node_modules/
+/test-results/
+/blob-report/
+

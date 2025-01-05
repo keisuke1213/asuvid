@@ -17,6 +17,7 @@ type DateType = {
 
 export type InfoContainer = {
   info: Info;
+  isSessionValid: boolean;
 };
 
 export type InfoWithStatus = Info & { status: Status };

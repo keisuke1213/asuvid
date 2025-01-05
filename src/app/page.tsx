@@ -49,7 +49,7 @@ const Home = async ({
 
   return (
     <Box sx={{ pb: 3, mb: 3 }}>
-      <Header />
+      <Header props={query} />
       <Typography component="h1" gutterBottom sx={titleStyle}>
         {title}
       </Typography>
