@@ -24,8 +24,8 @@ export default async function middleware(req: NextRequest) {
   }
 
   const cookie = (await cookies()).get("session")?.value;
-  console.log("cookie", cookie);
   const sesssion = await decrypt(cookie);
+  console.log("session", session)
 
   if (!sesssion || !sesssion.isAdmin) {
     return NextResponse.redirect(new URL("/admin/signIn", req.url));
