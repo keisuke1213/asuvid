@@ -24,6 +24,7 @@ export default async function middleware(req: NextRequest) {
   }
 
   const cookie = (await cookies()).get("session")?.value;
+  console.log("cookie", cookie);
   const sesssion = await decrypt(cookie);
 
   if (!sesssion || !sesssion.isAdmin) {
