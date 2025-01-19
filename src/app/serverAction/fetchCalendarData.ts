@@ -15,7 +15,7 @@ export const fetchCalendarData = async (): Promise<Info[]> => {
         dates: true,
       },
     });
-    console.log(infos.map((i) => i.dates));
+    console.log("calender", infos);
     return infos;
   } catch (e: any) {
     console.error("Error:", e.message);
