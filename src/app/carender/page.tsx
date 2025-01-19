@@ -14,6 +14,7 @@ type Event = {
 
 export default async function CalendarPage() {
   const infos: Info[] = await fetchCalendarData();
+  console.log("infos", infos);
   const event: Event[] = [];
 
   const emojiRegex =
