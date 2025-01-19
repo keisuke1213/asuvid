@@ -29,6 +29,8 @@ model Info {
   content   String
   status    Status
   dates     Date[]    @relation("InfoDates")
+
+  @@index(fields: [deadline])
 }
 
 model Date {
