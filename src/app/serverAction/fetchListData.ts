@@ -7,6 +7,7 @@ export const dynamic = "force-dynamic";
 export const fetchListData = async (): Promise<InfoWithStatus[]> => {
   const currentDate = new Date();
   try {
+    console.time("fetchListData");
     const infos = await prisma.info.findMany({
       where: {
         deadline: {
@@ -17,6 +18,7 @@ export const fetchListData = async (): Promise<InfoWithStatus[]> => {
         dates: true,
       },
     });
+    console.timeEnd("fetchListData");
 
     return updateStatus(infos);
   } catch (error) {
