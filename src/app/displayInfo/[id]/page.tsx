@@ -21,11 +21,17 @@ const fetchData = async (id: number) => {
   }
 };
 
-export default async function InfoDetailPage({
-  params: { id },
-}: {
-  params: { id: string };
-}) {
+export default async function InfoDetailPage(
+  props: {
+    params: Promise<{ id: string }>;
+  }
+) {
+  const params = await props.params;
+
+  const {
+    id
+  } = params;
+
   const info = await fetchData(Number(id));
   const isSessionValid = await verifyAdminSession();
   if (!info) {
