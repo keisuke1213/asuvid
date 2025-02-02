@@ -4,6 +4,10 @@ import { deadlineColor } from "../ui/style";
 import { dateColor } from "../ui/style";
 import { fetchListData } from "../serverAction/fetchListData";
 import { removeLeadingZero } from "../util/removeLeadingZero";
+import { FC } from "react";
+import { InfoWithStatus } from "../types/infoType";
+import { ListSkeleton } from "../ui/listSkeleton";
+import { Suspense } from "react";
 
 const titleStyle = {
   fontSize: "19px",
@@ -14,6 +18,21 @@ const titleStyle = {
 
 export const InfoIndex = async () => {
   const infos = await fetchListData();
+
+  return (
+    <>
+      <Suspense fallback={<ListSkeleton />}>
+        <InfoComponent infos={infos} />
+      </Suspense>
+    </>
+  );
+};
+
+type InfoProps = {
+  infos: InfoWithStatus[];
+};
+
+const InfoComponent: FC<InfoProps> = ({ infos }) => {
   const info = infos.map((info) => {
     return {
       id: info.id,
@@ -28,7 +47,6 @@ export const InfoIndex = async () => {
       })),
     };
   });
-
   return (
     <Container>
       {info && info.length > 0 ? (
