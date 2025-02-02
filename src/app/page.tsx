@@ -16,14 +16,12 @@ const titleStyle = {
   },
 };
 
-const Home = async (
-  props0: {
-    searchParams?: Promise<{
-      query?: string;
-      page?: string;
-    }>;
-  }
-) => {
+const Home = async (props0: {
+  searchParams?: Promise<{
+    query?: string;
+    page?: string;
+  }>;
+}) => {
   const searchParams = await props0.searchParams;
   const query = searchParams?.query || "";
   const currentPage = Number(searchParams?.page) || 1;
@@ -59,9 +57,7 @@ const Home = async (
           <SearchResult query={query} currentPage={currentPage} />
         </Suspense>
       ) : (
-        <Suspense fallback={<ListSkeleton />}>
-          <InfoIndex />
-        </Suspense>
+        <InfoIndex />
       )}
     </Box>
   );
