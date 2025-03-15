@@ -1,6 +1,30 @@
 import { Calendar } from "./Calendar";
-import { fetchCalendarData } from "../serverAction/fetchCalendarData";
 import { Info } from "../types/infoType";
+import prisma from "../../../db";
+
+export const dynamic = "force-dynamic";
+
+const fetchCalendarData = async (): Promise<Info[]> => {
+  try {
+    const infos = await prisma.info.findMany({
+      where: {
+        dates: {
+          some: {},
+        },
+      },
+      include: {
+        dates: true,
+      },
+    });
+
+    return infos;
+  } catch (e: any) {
+    console.error("Error:", e.message);
+    return [];
+  } finally {
+    await prisma.$disconnect();
+  }
+};
 
 type Event = {
   id: string;
