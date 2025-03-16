@@ -66,22 +66,18 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         const result = await model.generateContent(prompt);
         const response = await result.response;
         const text = await response.text();
-        console.log(text);
         return text;
       };
       const extractedInfo: string = await extractInfo();
 
       const typeMatch = extractedInfo.match(/\*\*分類:\*\*\s*(.*)/);
       const type = typeMatch ? typeMatch[1].trim() : null;
-      console.log(type);
 
       const titleMatch = extractedInfo.match(/\*\*タイトル:\*\*\s*(.*)/);
       const title = titleMatch ? titleMatch[1].trim() : null;
-      console.log(title);
 
       const contentMatch = extractedInfo.match(/\*\*内容:\*\*\s*(.*)/);
       const content = contentMatch ? contentMatch[1].trim() : null;
-      console.log(content);
 
       const dayPattern =
         /\*\*日時:\*\*\s*(\d{4}-\d{2}-\d{2}(?:\d{2}:\d{2}:\d{2})?)(?:[,\s/]*(\d{4}-\d{2}-\d{2}(?:\d{2}:\d{2}:\d{2})?))*\s*/g;
