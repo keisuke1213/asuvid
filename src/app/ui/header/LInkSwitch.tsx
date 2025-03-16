@@ -16,10 +16,10 @@ export const LinkSwitch = ({ props }: { props: string }) => {
     return (
       <List>
         <ListItemButton>
-          <Link href="/admin">管理者ページ</Link>
+          <Link href="/carender">カレンダー</Link>
         </ListItemButton>
         <ListItemButton>
-          <Link href="/carender">カレンダー</Link>
+          <Link href="/admin">管理者ページ</Link>
         </ListItemButton>
       </List>
     );
