@@ -20,10 +20,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
     const unincludedWord = ["リマインド", "りまいんど", "Times"];
 
-    if (
-      textLength > 80 &&
-      !unincludedWord.some((word) => cleanedText.includes(word))
-    ) {
+    if (!unincludedWord.some((word) => cleanedText.includes(word))) {
       const extractInfo = async () => {
         const model = genAI.getGenerativeModel({ model: "gemini-1.5-pro" });
 
@@ -66,22 +63,19 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         const result = await model.generateContent(prompt);
         const response = await result.response;
         const text = await response.text();
-        console.log(text);
+        console.log("text", text);
         return text;
       };
       const extractedInfo: string = await extractInfo();
 
       const typeMatch = extractedInfo.match(/\*\*分類:\*\*\s*(.*)/);
       const type = typeMatch ? typeMatch[1].trim() : null;
-      console.log(type);
 
       const titleMatch = extractedInfo.match(/\*\*タイトル:\*\*\s*(.*)/);
       const title = titleMatch ? titleMatch[1].trim() : null;
-      console.log(title);
 
       const contentMatch = extractedInfo.match(/\*\*内容:\*\*\s*(.*)/);
       const content = contentMatch ? contentMatch[1].trim() : null;
-      console.log(content);
 
       const dayPattern =
         /\*\*日時:\*\*\s*(\d{4}-\d{2}-\d{2}(?:\d{2}:\d{2}:\d{2})?)(?:[,\s/]*(\d{4}-\d{2}-\d{2}(?:\d{2}:\d{2}:\d{2})?))*\s*/g;
@@ -137,34 +131,34 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
       const status = type === "活動募集" ? Status.RECRUITING : Status.NULL;
 
-      const createInfo = async (infoData: Info) => {
-        const { title, deadline, url, content } = infoData;
-        const info = await prisma.info.create({
-          data: {
-            type: type === "活動募集" ? InfoType.RECRUITMENT : InfoType.CONTACT,
-            name: title,
-            deadline: deadline,
-            formUrl: url,
-            content: content,
-            status: status,
-          },
-        });
-        return info;
-      };
-      const info = await createInfo(infoData);
+      // const createInfo = async (infoData: Info) => {
+      //   const { title, deadline, url, content } = infoData;
+      //   const info = await prisma.info.create({
+      //     data: {
+      //       type: type === "活動募集" ? InfoType.RECRUITMENT : InfoType.CONTACT,
+      //       name: title,
+      //       deadline: deadline,
+      //       formUrl: url,
+      //       content: content,
+      //       status: status,
+      //     },
+      //   });
+      //   return info;
+      // };
+      // const info = await createInfo(infoData);
 
-      const createDate = async (dates: string[], infoId: number) => {
-        const date = await prisma.date.createMany({
-          data: dates.map((date) => {
-            return {
-              date: date,
-              infoId: infoId,
-            };
-          }),
-        });
-        return date;
-      };
-      const date = await createDate(parsedDate, info.id);
+      // const createDate = async (dates: string[], infoId: number) => {
+      //   const date = await prisma.date.createMany({
+      //     data: dates.map((date) => {
+      //       return {
+      //         date: date,
+      //         infoId: infoId,
+      //       };
+      //     }),
+      //   });
+      //   return date;
+      // };
+      // const date = await createDate(parsedDate, info.id);
     }
     res.status(200).json({ message: "Event received" });
   } else {
