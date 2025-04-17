@@ -5,7 +5,7 @@
       "schedule": "0 15 * * *"
     },
     {
-      "path": "api/sendLineMessages",
+      "path": "/api/sendLineMessages",
       "schedule": "0 10 1 * *"
     }
   ]
