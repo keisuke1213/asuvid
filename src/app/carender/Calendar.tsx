@@ -6,7 +6,6 @@ import interactionPlugin from "@fullcalendar/interaction";
 import { FC } from "react";
 import { useState } from "react";
 import CarenderDetailModal from "./detailModal/CarenderDetailModal";
-import { sendLineMessage } from "../serverAction/sendLineMessage";
 
 type Event = {
   id: string;
@@ -20,10 +19,6 @@ type Event = {
 
 type CalenderProps = {
   event: Event[];
-};
-
-const test = async () => {
-  await sendLineMessage();
 };
 
 export const Calendar: FC<CalenderProps> = ({ event }) => {
@@ -43,7 +38,6 @@ export const Calendar: FC<CalenderProps> = ({ event }) => {
 
   return (
     <div className={styles.container}>
-      <button onClick={test}>LINEに通知</button>
       <FullCalendar
         plugins={[dayGridPlugin, interactionPlugin]}
         initialView="dayGridMonth"
