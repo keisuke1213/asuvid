@@ -3,6 +3,10 @@
     {
       "path": "/api/deleteOldData",
       "schedule": "0 15 * * *"
+    },
+    {
+      "path": "/api/sendLineMessages",
+      "schedule": "0 10 1 * *"
     }
   ]
 }
