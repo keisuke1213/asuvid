@@ -4,33 +4,39 @@ const genAI = new GoogleGenerativeAI(process.env.GEMINI_AI_API_KEY);
 import { InfoType, Status } from "@prisma/client";
 import prisma from "../../db";
 
-type Info = {
-  title: string;
-  deadline: Date | null;
-  url: string | null;
-  content: string;
-};
-
 export default async (req: NextApiRequest, res: NextApiResponse) => {
-  if (req.method === "POST") {
-    const events = req.body.events;
+  if (req.method !== "POST") {
+    res.status(405).json({ message: "Method not allowed" });
+    return;
+  }
+  const events = req.body.events;
+  console.log("events", events);
+  const messageType = events[0].message.type;
+
+  try {
+    if (messageType !== "text") {
+      throw new Error("Invalid message type");
+    }
+
     const messageText = events[0].message.text;
     const textLength = messageText.length;
     const cleanedText = messageText.replace(/\((.*?)\)/g, "$1");
-
     const unincludedWord = ["リマインド", "りまいんど", "Times"];
 
     if (
-      textLength > 80 &&
-      !unincludedWord.some((word) => cleanedText.includes(word))
+      textLength < 80 ||
+      unincludedWord.some((word) => cleanedText.includes(word))
     ) {
-      const extractInfo = async () => {
-        const model = genAI.getGenerativeModel({ model: "gemini-1.5-pro" });
+      throw new Error("Invalid text length or content");
+    }
 
-        const currentYear = new Date().getFullYear();
-        const currentMonth = new Date().getMonth() + 1;
+    const extractInfo = async () => {
+      const model = genAI.getGenerativeModel({ model: "gemini-1.5-pro" });
 
-        const prompt = `${cleanedText}この情報の中からタイトル、日時、締め切り、URL、内容を抽出してください。
+      const currentYear = new Date().getFullYear();
+      const currentMonth = new Date().getMonth() + 1;
+
+      const prompt = `${cleanedText}この情報の中からタイトル、日時、締め切り、URL、内容を抽出してください。
                       ${cleanedText}の内容をもとに、活動募集か連絡かの分類を判断してください。
                       表示形式は以下の通りです。
                       **分類:** 分類
@@ -63,107 +69,104 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
                         不要な改行はやめてください。
                         `;
 
-        const result = await model.generateContent(prompt);
-        const response = await result.response;
-        const text = await response.text();
-        return text;
-      };
-      const extractedInfo: string = await extractInfo();
+      const result = await model.generateContent(prompt);
+      const response = await result.response;
+      const text = await response.text();
+      return text;
+    };
+    const extractedInfo: string = await extractInfo();
 
-      const typeMatch = extractedInfo.match(/\*\*分類:\*\*\s*(.*)/);
-      const type = typeMatch ? typeMatch[1].trim() : null;
+    const typeMatch = extractedInfo.match(/\*\*分類:\*\*\s*(.*)/);
+    const type = typeMatch ? typeMatch[1].trim() : null;
 
-      const titleMatch = extractedInfo.match(/\*\*タイトル:\*\*\s*(.*)/);
-      const title = titleMatch ? titleMatch[1].trim() : null;
+    const titleMatch = extractedInfo.match(/\*\*タイトル:\*\*\s*(.*)/);
+    const title = titleMatch ? titleMatch[1].trim() : null;
 
-      const contentMatch = extractedInfo.match(/\*\*内容:\*\*\s*(.*)/);
-      const content = contentMatch ? contentMatch[1].trim() : null;
+    const contentMatch = extractedInfo.match(/\*\*内容:\*\*\s*(.*)/);
+    const content = contentMatch ? contentMatch[1].trim() : null;
 
-      const dayPattern =
-        /\*\*日時:\*\*\s*(\d{4}-\d{2}-\d{2}(?:\d{2}:\d{2}:\d{2})?)(?:[,\s/]*(\d{4}-\d{2}-\d{2}(?:\d{2}:\d{2}:\d{2})?))*\s*/g;
-      const dateMatches = extractedInfo
-        .match(dayPattern)
-        ?.map((date) => date.replace(/\*\*日時:\*\*\s*/, "").trim());
+    const dayPattern =
+      /\*\*日時:\*\*\s*(\d{4}-\d{2}-\d{2}(?:\d{2}:\d{2}:\d{2})?)(?:[,\s/]*(\d{4}-\d{2}-\d{2}(?:\d{2}:\d{2}:\d{2})?))*\s*/g;
+    const dateMatches = extractedInfo
+      .match(dayPattern)
+      ?.map((date) => date.replace(/\*\*日時:\*\*\s*/, "").trim());
 
-      let dates: string[] = [];
-      const pattern = /,\s*|\s+|\/\s*/;
-      if (dateMatches) {
-        dates = dateMatches[0].split(pattern);
-      }
-
-      const parsedDate = dates.map((date) => {
-        const dateObj = new Date(date);
-        return dateObj.toISOString();
-      });
-      console.log(parsedDate);
-      const deadlinePattern =
-        /\*\*締め切り:\*\*\s*(\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}[+-]\d{2}:\d{2})(?:[,\s/]*(\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}[+-]\d{2}:\d{2}))*\s*/g;
-
-      const deadlineMatches = extractedInfo
-        .match(deadlinePattern)
-        ?.map((date) => date.replace(/\*\*締め切り:\*\*\s*/, "").trim());
-
-      let deadline: string | null = null;
-
-      deadlineMatches && deadlineMatches.length > 0
-        ? (deadline = deadlineMatches[0])
-        : null;
-
-      console.log(deadline);
-
-      const urlMatches = extractedInfo.match(
-        /\*\*URL:\*\*\s*(https?:\/\/[^\s]*)/
-      );
-      const url = urlMatches ? urlMatches[1].trim() : null;
-      console.log(url);
-
-      type Info = {
-        title: string;
-        deadline: string | null;
-        url: string | null;
-        content: string;
-      };
-
-      const infoData: Info = {
-        title: title!,
-        deadline: deadline,
-        url: url,
-        content: content!,
-      };
-
-      const status = type === "活動募集" ? Status.RECRUITING : Status.NULL;
-
-      const createInfo = async (infoData: Info) => {
-        const { title, deadline, url, content } = infoData;
-        const info = await prisma.info.create({
-          data: {
-            type: type === "活動募集" ? InfoType.RECRUITMENT : InfoType.CONTACT,
-            name: title,
-            deadline: deadline,
-            formUrl: url,
-            content: content,
-            status: status,
-          },
-        });
-        return info;
-      };
-      const info = await createInfo(infoData);
-
-      const createDate = async (dates: string[], infoId: number) => {
-        const date = await prisma.date.createMany({
-          data: dates.map((date) => {
-            return {
-              date: date,
-              infoId: infoId,
-            };
-          }),
-        });
-        return date;
-      };
-      const date = await createDate(parsedDate, info.id);
+    let dates: string[] = [];
+    const pattern = /,\s*|\s+|\/\s*/;
+    if (dateMatches) {
+      dates = dateMatches[0].split(pattern);
     }
+
+    const parsedDate = dates.map((date) => {
+      const dateObj = new Date(date);
+      return dateObj.toISOString();
+    });
+
+    const deadlinePattern =
+      /\*\*締め切り:\*\*\s*(\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}[+-]\d{2}:\d{2})(?:[,\s/]*(\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}[+-]\d{2}:\d{2}))*\s*/g;
+
+    const deadlineMatches = extractedInfo
+      .match(deadlinePattern)
+      ?.map((date) => date.replace(/\*\*締め切り:\*\*\s*/, "").trim());
+
+    let deadline: string | null = null;
+
+    deadlineMatches && deadlineMatches.length > 0
+      ? (deadline = deadlineMatches[0])
+      : null;
+
+    const urlMatches = extractedInfo.match(
+      /\*\*URL:\*\*\s*(https?:\/\/[^\s]*)/
+    );
+    const url = urlMatches ? urlMatches[1].trim() : null;
+
+    type Info = {
+      title: string;
+      deadline: string | null;
+      url: string | null;
+      content: string;
+    };
+
+    const infoData: Info = {
+      title: title!,
+      deadline: deadline,
+      url: url,
+      content: content!,
+    };
+
+    const status = type === "活動募集" ? Status.RECRUITING : Status.NULL;
+
+    const createInfo = async (infoData: Info) => {
+      const { title, deadline, url, content } = infoData;
+      const info = await prisma.info.create({
+        data: {
+          type: type === "活動募集" ? InfoType.RECRUITMENT : InfoType.CONTACT,
+          name: title,
+          deadline: deadline,
+          formUrl: url,
+          content: content,
+          status: status,
+        },
+      });
+      return info;
+    };
+    const info = await createInfo(infoData);
+
+    const createDate = async (dates: string[], infoId: number) => {
+      const date = await prisma.date.createMany({
+        data: dates.map((date) => {
+          return {
+            date: date,
+            infoId: infoId,
+          };
+        }),
+      });
+      return date;
+    };
+    await createDate(parsedDate, info.id);
     res.status(200).json({ message: "Event received" });
-  } else {
-    res.status(405).json({ message: "Method not allowed" });
+  } catch (error) {
+    console.error("Error processing event:", error);
+    res.status(500).json({ message: "Internal server error" });
   }
 };
