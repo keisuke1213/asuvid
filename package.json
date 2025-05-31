@@ -18,7 +18,7 @@
     "@fullcalendar/daygrid": "^6.1.15",
     "@fullcalendar/interaction": "^6.1.15",
     "@fullcalendar/react": "^6.1.15",
-    "@google/generative-ai": "^0.17.1",
+    "@google/generative-ai": "^0.24.1",
     "@mui/icons-material": "^5.16.6",
     "@mui/lab": "^5.0.0-alpha.173",
     "@mui/material": "^5.16.6",
