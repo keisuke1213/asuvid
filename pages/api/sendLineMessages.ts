@@ -6,6 +6,9 @@ export default async (res: NextApiResponse) => {
   const infoLen = info.length;
 
   try {
+    if (infoLen === 0) {
+      return;
+    }
     const response = await fetch(
       "https://api.line.me/v2/bot/message/broadcast",
       {
