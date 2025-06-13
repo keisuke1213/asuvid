@@ -51,3 +51,8 @@ enum InfoType {
   RECRUITMENT
   CONTACT
 }
+
+model DeliveryHistory {
+  id Int       @id @default(autoincrement())
+  createdAt DateTime  @default(now())
+}
